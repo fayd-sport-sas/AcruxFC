@@ -1,0 +1,30 @@
+#aqui tengo los datos de github
+datos_pers_git
+
+cat > .gitignore << 'EOF'
+# Dependencias - esto pesa 200MB, no se sube
+node_modules/
+
+# Build - se genera solo
+dist/
+build/
+.next/
+out/
+
+# Variables secretas
+.env
+.env.local
+.env.production
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+EOF
