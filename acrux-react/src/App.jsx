@@ -214,7 +214,7 @@ function App() {
       {/* FOTO 1 */}
       <div className="group relative aspect-square bg-[#1A3A8A]/10 rounded-2xl overflow-hidden border-2 border-[#1A3A8A]/30 hover:border-[#4A8BFF]/50 transition-all duration-500 hover:scale-[1.08] hover:shadow-2xl hover:shadow-[#1A3A8A]/40">
         <img 
-          src="public/foto/img_a04.jpg" 
+          src="/foto/img_a04.jpg" 
           alt="Entrenamiento técnico en Acrux" 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
@@ -227,7 +227,7 @@ function App() {
       {/* FOTO 2 */}
       <div className="group relative aspect-square bg-[#1A3A8A]/10 rounded-2xl overflow-hidden border-2 border-[#1A3A8A]/30 hover:border-[#4A8BFF]/50 transition-all duration-500 hover:scale-[1.08] hover:shadow-2xl hover:shadow-[#1A3A8A]/40">
         <img 
-          src="public/foto/img_a01.jpg" 
+          src="/foto/img_a01.jpg" 
           alt="Entrenamiento físico en Acrux" 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
@@ -240,7 +240,7 @@ function App() {
       {/* FOTO 3 */}
       <div className="group relative aspect-square bg-[#1A3A8A]/10 rounded-2xl overflow-hidden border-2 border-[#1A3A8A]/30 hover:border-[#4A8BFF]/50 transition-all duration-500 hover:scale-[1.08] hover:shadow-2xl hover:shadow-[#1A3A8A]/40">
         <img 
-          src="public/foto/img_09.jpg" 
+          src="/foto/img_09.jpg" 
           alt="Partido amistoso Acrux" 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
@@ -253,7 +253,7 @@ function App() {
       {/* FOTO 4 */}
       <div className="group relative aspect-square bg-[#1A3A8A]/10 rounded-2xl overflow-hidden border-2 border-[#1A3A8A]/30 hover:border-[#4A8BFF]/50 transition-all duration-500 hover:scale-[1.08] hover:shadow-2xl hover:shadow-[#1A3A8A]/40">
         <img 
-          src="public/foto/img_10.jpg" 
+          src="/foto/img_10.jpg" 
           alt="Celebración Acrux" 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
@@ -266,7 +266,7 @@ function App() {
       {/* FOTO 5 */}
       <div className="group relative aspect-square bg-[#1A3A8A]/10 rounded-2xl overflow-hidden border-2 border-[#1A3A8A]/30 hover:border-[#4A8BFF]/50 transition-all duration-500 hover:scale-[1.08] hover:shadow-2xl hover:shadow-[#1A3A8A]/40">
         <img 
-          src="public/foto/img_11.jpg" 
+          src="/foto/img_11.jpg" 
           alt="Equipo Acrux" 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
@@ -279,7 +279,7 @@ function App() {
       {/* FOTO 6 */}
       <div className="group relative aspect-square bg-[#1A3A8A]/10 rounded-2xl overflow-hidden border-2 border-[#1A3A8A]/30 hover:border-[#4A8BFF]/50 transition-all duration-500 hover:scale-[1.08] hover:shadow-2xl hover:shadow-[#1A3A8A]/40">
         <img 
-          src="public/foto/img_a02.jpg"
+          src="/foto/img_a02.jpg"
           alt="Entrenamiento con balón Acrux" 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
