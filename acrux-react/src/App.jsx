@@ -323,14 +323,14 @@ function Hero({ spots, total }) {
         </div>
         <div ref={r2.ref} className={cls('transition-all ease-out', r2.className)} style={r2.style}>
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black leading-[1.05] mb-6">
-            ACRUX ES LA CLAVE<br />
-            <span className="bg-gradient-to-r from-[#4A8BFF] via-[#6AABFF] to-[#1A3A8A] bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient motion-reduce:animate-none">PARA FORMAR</span><br />
-            FUTURAS ESTRELLAS
+            ACRUX<br />
+            <span className="bg-gradient-to-r from-[#4A8BFF] via-[#6AABFF] to-[#1A3A8A] bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient motion-reduce:animate-none">FORMANDO</span><br />
+            ESTRELLAS
           </h1>
         </div>
         <div ref={r3.ref} className={cls('transition-all ease-out', r3.className)} style={r3.style}>
           <p className="text-white/70 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-            No solo entrenamos fútbol, <strong className="text-white">lo vivimos.</strong> Metodología profesional para llegar al fútbol profesional.
+            No solo entrenamos fútbol, <strong className="text-white">LO VIVIMOS.</strong> Metodología profesional para llegar al fútbol profesional.
           </p>
         </div>
         <div ref={r4.ref} className={cls('transition-all ease-out', r4.className)} style={r4.style}>
@@ -431,9 +431,20 @@ function Gallery() {
       <div className="max-w-6xl mx-auto">
         <SectionHeader title="VIVE" highlight="ACRUX POR DENTRO" description="Momentos reales de nuestros entrenamientos y partidos." />
         <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5 list-none">
-          {GALLERY.map((item, i) => (
-            <GalleryItem key={item.src} item={item} delay={i * 80} />
-          ))}
+          {GALLERY.map((item, i) => {
+            const r = useReveal(0.15, i * 80);
+            return (
+              <li key={item.src} ref={r.ref} className={cls('transition-all ease-out', r.className)} style={r.style}>
+                <button type="button" onClick={() => setActive(item)} className="group relative w-full aspect-square overflow-hidden rounded-2xl bg-[#1A3A8A]/10 border-2 border-[#1A3A8A]/30 transition-[transform,border-color,box-shadow] duration-500 ease-out hover:scale-[1.04] hover:border-[#4A8BFF]/60 hover:shadow-2xl hover:shadow-[#1A3A8A]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF] motion-reduce:hover:scale-100 motion-reduce:transition-none" aria-label={`Ver imagen: ${item.alt}`}>
+                  <img src={item.src} alt={item.alt} loading="lazy" decoding="async" width="600" height="600" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800'; }} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 motion-reduce:transition-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute bottom-0 inset-x-0 p-4 sm:p-5 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out motion-reduce:transition-none motion-reduce:translate-y-0">
+                    <p className="text-white font-black text-base sm:text-lg drop-shadow-lg"><span aria-hidden="true" className="mr-2">{item.emoji}</span>{item.caption}</p>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </div>
       {active && (
@@ -445,6 +456,7 @@ function Gallery() {
     </section>
   );
 }
+
 
 // CORRECCIÓN 2: Componente separado para Testimonials
 function Testimonials() {
