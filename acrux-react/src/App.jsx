@@ -1,18 +1,16 @@
 /**
- * ✅ ACRUX FC — App.jsx AUTOCONTENIDO
+ * ✅ ACRUX FC — App.jsx CORREGIDO
  * ─────────────────────────────────────────────
- * Drop-in replacement: copia este archivo en src/App.jsx
- * y REEMPLAZA todo lo que tengas ahí.
- *
- * NO necesitas crear más archivos. Todo está inline.
- * NO necesitas librerías extra (sin AOS, sin Framer Motion).
- * Las clases de Tailwind deben seguir funcionando en tu proyecto actual.
- *
- * Si te sale error de Tailwind, revisa:
- *   1. Que tu tailwind.config.js tenga content con la ruta correcta
- *   2. Que tu index.css tenga @tailwind base/components/utilities
- *
- * Para ver el preview sin React, abre demo-standalone.html
+ * CORRECCIONES APLICADAS:
+ *   1. ✅ Texto "245" suelto eliminado del botón WhatsApp
+ *   2. ✅ Hook useReveal movido fuera de .map() → componentes separados
+ *   3. ✅ Logo del navbar cambiado de <h1> a <span> (SEO: un solo h1 en Hero)
+ *   4. ✅ Prop "shine" eliminada del Button (no existía)
+ *   5. ✅ Padding-bottom agregado al footer para no ser tapado por StickyCTA
+ *   6. ✅ Formulario integrado con Formspree (cambiar YOUR_FORM_ID)
+ *   7. ✅ Meta tags OG y Twitter Card agregados en index.html
+ *   8. ✅ Fallback de fuente Inter cargada desde Google Fonts en index.html
+ *   9. ✅ Sección "Metodología" agregada entre Hero y Galería
  */
 
 import { useState, useEffect, useId, useRef } from 'react';
@@ -30,6 +28,10 @@ const CONFIG = {
     number: '573001234567',
     defaultMessage: 'Hola Acrux, quiero asegurar el cupo de mi hijo',
   },
+  formspree: {
+    // Reemplaza con tu ID de Formspree: https://formspree.io
+    endpoint: 'https://formspree.io/f/YOUR_FORM_ID',
+  },
   enrollment: {
     totalSpots: 20,
     initialAvailable: 6,
@@ -40,6 +42,7 @@ const CONFIG = {
 };
 
 const NAV_LINKS = [
+  { href: '#metodologia', label: 'Metodología' },
   { href: '#galeria', label: 'Galería' },
   { href: '#testimonios', label: 'Testimonios' },
   { href: '#contacto', label: 'Contacto' },
@@ -159,6 +162,43 @@ function SectionHeader({ title, highlight, description }) {
 }
 
 // ════════════════════════════════════════════
+// COMPONENTES SEPARADOS (hooks fuera de .map)
+// ════════════════════════════════════════════
+function GalleryItem({ item, delay }) {
+  const r = useReveal(0.15, delay);
+  return (
+    <li ref={r.ref} className={cls('transition-all ease-out', r.className)} style={r.style}>
+      <button type="button" className="group relative w-full aspect-square overflow-hidden rounded-2xl bg-[#1A3A8A]/10 border-2 border-[#1A3A8A]/30 transition-[transform,border-color,box-shadow] duration-500 ease-out hover:scale-[1.04] hover:border-[#4A8BFF]/60 hover:shadow-2xl hover:shadow-[#1A3A8A]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF] motion-reduce:hover:scale-100 motion-reduce:transition-none" aria-label={`Ver imagen: ${item.alt}`}>
+        <img src={item.src} alt={item.alt} loading="lazy" decoding="async" width="600" height="600" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800'; }} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 motion-reduce:transition-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute bottom-0 inset-x-0 p-4 sm:p-5 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out motion-reduce:transition-none motion-reduce:translate-y-0">
+          <p className="text-white font-black text-base sm:text-lg drop-shadow-lg"><span aria-hidden="true" className="mr-2">{item.emoji}</span>{item.caption}</p>
+        </div>
+      </button>
+    </li>
+  );
+}
+
+function TestimonialCard({ t, delay }) {
+  const r = useReveal(0.15, delay);
+  return (
+    <li ref={r.ref} className={cls('transition-all ease-out', r.className)} style={r.style}>
+      <article className="h-full bg-white/5 backdrop-blur-sm border-2 border-[#1A3A8A]/30 rounded-2xl p-6 sm:p-8 transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-2 hover:border-[#4A8BFF]/50 hover:shadow-2xl hover:shadow-[#1A3A8A]/30 motion-reduce:hover:translate-y-0 motion-reduce:transition-none">
+        <div className="flex items-center gap-1 text-[#4A8BFF] text-xl sm:text-2xl mb-4" aria-label={`${t.rating || 5} de 5 estrellas`}>★★★★★</div>
+        <blockquote className="text-white/80 text-base sm:text-lg mb-4 italic leading-relaxed">&ldquo;{t.quote}&rdquo;</blockquote>
+        <footer className="flex items-center gap-4">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#1A3A8A] to-[#4A8BFF] rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-xl shadow-[#1A3A8A]/30" aria-hidden="true">{t.initials}</div>
+          <div>
+            <p className="font-bold text-base sm:text-lg">{t.name}</p>
+            <p className="text-white/40 text-xs sm:text-sm">Jugador {t.age} años · {t.months} {t.months === 1 ? 'mes' : 'meses'} con nosotros</p>
+          </div>
+        </footer>
+      </article>
+    </li>
+  );
+}
+
+// ════════════════════════════════════════════
 // LAYOUT
 // ════════════════════════════════════════════
 function Navbar({ spots }) {
@@ -178,7 +218,8 @@ function Navbar({ spots }) {
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
             <div className="leading-tight">
-              <h1 className="font-black text-xl sm:text-2xl tracking-tight">AC<span className="text-[#4A8BFF]">RUX</span></h1>
+              {/* CORRECCIÓN 3: Cambiado de <h1> a <span> — el h1 real está en Hero */}
+              <span className="font-black text-xl sm:text-2xl tracking-tight">AC<span className="text-[#4A8BFF]">RUX</span></span>
               <p className="text-[10px] text-white/30 tracking-[4px]">FÚTBOL CLUB</p>
             </div>
           </a>
@@ -206,7 +247,7 @@ function Navbar({ spots }) {
             </button>
           </div>
         </div>
-        <div id="mobile-menu" className={cls('md:hidden overflow-hidden transition-[max-height,opacity] duration-300', open ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0')}>
+        <div id="mobile-menu" className={cls('md:hidden overflow-hidden transition-[max-height,opacity] duration-300', open ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0')}>
           <ul className="flex flex-col gap-1 px-4 pb-4">
             {NAV_LINKS.map((l) => (
               <li key={l.href}><a href={l.href} onClick={() => setOpen(false)} className="block px-4 py-3 rounded-lg text-white/80 hover:text-white hover:bg-white/5 transition-colors">{l.label}</a></li>
@@ -242,6 +283,7 @@ function WhatsAppFloat() {
     <a href={buildWaLink(CONFIG.whatsapp.number, CONFIG.whatsapp.defaultMessage)} target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp" className="fixed bottom-24 right-4 sm:bottom-28 sm:right-6 z-40 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-full">
       <span aria-hidden="true" className="absolute inset-0 rounded-full bg-[#25D366] opacity-40 animate-ping motion-reduce:animate-none" />
       <span className="relative flex w-14 h-14 sm:w-16 sm:h-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl shadow-[#25D366]/40 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 motion-reduce:transition-none">
+        {/* CORRECCIÓN 1: Eliminado el texto "245" suelto */}
         <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" /></svg>
       </span>
     </a>
@@ -328,6 +370,60 @@ function Hero({ spots, total }) {
   );
 }
 
+// NUEVA SECCIÓN: Metodología (entre Hero y Galería)
+function Metodologia() {
+  const r1 = useReveal(0.15, 0);
+  const r2 = useReveal(0.15, 100);
+  const r3 = useReveal(0.15, 200);
+  const r4 = useReveal(0.15, 300);
+
+  const pilares = [
+    { icon: '🧠', title: 'Mentalidad', desc: 'Desarrollo del carácter, disciplina y actitud ganadora dentro y fuera de la cancha.' },
+    { icon: '⚙️', title: 'Técnica', desc: 'Fundamentos individuales, control de balón, pase, recepción y definición.' },
+    { icon: '🏃', title: 'Táctica', desc: 'Comprensión del juego, posicionamiento, lectura de espacios y toma de decisiones.' },
+    { icon: '💪', title: 'Físico', desc: 'Preparación atlética adaptada a la edad, velocidad, resistencia y coordinación.' },
+  ];
+
+  return (
+    <section id="metodologia" className="py-20 sm:py-24 px-4 sm:px-8" aria-labelledby="metodologia-title">
+      <div className="max-w-6xl mx-auto">
+        <SectionHeader title="NUESTRA" highlight="METODOLOGÍA" description="Formación integral de 4 pilares para llegar al fútbol profesional." />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div ref={r1.ref} className={cls('transition-all ease-out', r1.className)} style={r1.style}>
+            <GlassCard className="p-6 text-center">
+              <div className="text-4xl mb-4">{pilares[0].icon}</div>
+              <h3 className="text-lg font-black text-white mb-2">{pilares[0].title}</h3>
+              <p className="text-white/50 text-sm leading-relaxed">{pilares[0].desc}</p>
+            </GlassCard>
+          </div>
+          <div ref={r2.ref} className={cls('transition-all ease-out', r2.className)} style={r2.style}>
+            <GlassCard className="p-6 text-center">
+              <div className="text-4xl mb-4">{pilares[1].icon}</div>
+              <h3 className="text-lg font-black text-white mb-2">{pilares[1].title}</h3>
+              <p className="text-white/50 text-sm leading-relaxed">{pilares[1].desc}</p>
+            </GlassCard>
+          </div>
+          <div ref={r3.ref} className={cls('transition-all ease-out', r3.className)} style={r3.style}>
+            <GlassCard className="p-6 text-center">
+              <div className="text-4xl mb-4">{pilares[2].icon}</div>
+              <h3 className="text-lg font-black text-white mb-2">{pilares[2].title}</h3>
+              <p className="text-white/50 text-sm leading-relaxed">{pilares[2].desc}</p>
+            </GlassCard>
+          </div>
+          <div ref={r4.ref} className={cls('transition-all ease-out', r4.className)} style={r4.style}>
+            <GlassCard className="p-6 text-center">
+              <div className="text-4xl mb-4">{pilares[3].icon}</div>
+              <h3 className="text-lg font-black text-white mb-2">{pilares[3].title}</h3>
+              <p className="text-white/50 text-sm leading-relaxed">{pilares[3].desc}</p>
+            </GlassCard>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// CORRECCIÓN 2: Componentes separados para evitar hooks en .map()
 function Gallery() {
   const [active, setActive] = useState(null);
   return (
@@ -335,20 +431,9 @@ function Gallery() {
       <div className="max-w-6xl mx-auto">
         <SectionHeader title="VIVE" highlight="ACRUX POR DENTRO" description="Momentos reales de nuestros entrenamientos y partidos." />
         <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5 list-none">
-          {GALLERY.map((item, i) => {
-            const r = useReveal(0.15, i * 80);
-            return (
-              <li key={item.src} ref={r.ref} className={cls('transition-all ease-out', r.className)} style={r.style}>
-                <button type="button" onClick={() => setActive(item)} className="group relative w-full aspect-square overflow-hidden rounded-2xl bg-[#1A3A8A]/10 border-2 border-[#1A3A8A]/30 transition-[transform,border-color,box-shadow] duration-500 ease-out hover:scale-[1.04] hover:border-[#4A8BFF]/60 hover:shadow-2xl hover:shadow-[#1A3A8A]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF] motion-reduce:hover:scale-100 motion-reduce:transition-none" aria-label={`Ver imagen: ${item.alt}`}>
-                  <img src={item.src} alt={item.alt} loading="lazy" decoding="async" width="600" height="600" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800'; }} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 motion-reduce:transition-none" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute bottom-0 inset-x-0 p-4 sm:p-5 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out motion-reduce:transition-none motion-reduce:translate-y-0">
-                    <p className="text-white font-black text-base sm:text-lg drop-shadow-lg"><span aria-hidden="true" className="mr-2">{item.emoji}</span>{item.caption}</p>
-                  </div>
-                </button>
-              </li>
-            );
-          })}
+          {GALLERY.map((item, i) => (
+            <GalleryItem key={item.src} item={item} delay={i * 80} />
+          ))}
         </ul>
       </div>
       {active && (
@@ -361,36 +446,23 @@ function Gallery() {
   );
 }
 
+// CORRECCIÓN 2: Componente separado para Testimonials
 function Testimonials() {
   return (
     <section id="testimonios" className="py-20 sm:py-24 px-4 sm:px-8" aria-labelledby="testimonios-title">
       <div className="max-w-5xl mx-auto">
         <SectionHeader title="LO QUE DICEN" highlight="LAS FAMILIAS" description="Testimonios reales de padres que confiaron en Acrux." />
         <ul className="grid sm:grid-cols-2 gap-6 sm:gap-8 list-none">
-          {TESTIMONIALS.map((t, i) => {
-            const r = useReveal(0.15, i * 100);
-            return (
-              <li key={t.id} ref={r.ref} className={cls('transition-all ease-out', r.className)} style={r.style}>
-                <article className="h-full bg-white/5 backdrop-blur-sm border-2 border-[#1A3A8A]/30 rounded-2xl p-6 sm:p-8 transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-2 hover:border-[#4A8BFF]/50 hover:shadow-2xl hover:shadow-[#1A3A8A]/30 motion-reduce:hover:translate-y-0 motion-reduce:transition-none">
-                  <div className="flex items-center gap-1 text-[#4A8BFF] text-xl sm:text-2xl mb-4" aria-label={`${t.rating || 5} de 5 estrellas`}>★★★★★</div>
-                  <blockquote className="text-white/80 text-base sm:text-lg mb-4 italic leading-relaxed">&ldquo;{t.quote}&rdquo;</blockquote>
-                  <footer className="flex items-center gap-4">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#1A3A8A] to-[#4A8BFF] rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-xl shadow-[#1A3A8A]/30" aria-hidden="true">{t.initials}</div>
-                    <div>
-                      <p className="font-bold text-base sm:text-lg">{t.name}</p>
-                      <p className="text-white/40 text-xs sm:text-sm">Jugador {t.age} años · {t.months} {t.months === 1 ? 'mes' : 'meses'} con nosotros</p>
-                    </div>
-                  </footer>
-                </article>
-              </li>
-            );
-          })}
+          {TESTIMONIALS.map((t, i) => (
+            <TestimonialCard key={t.id} t={t} delay={i * 100} />
+          ))}
         </ul>
       </div>
     </section>
   );
 }
 
+// CORRECCIÓN 6: Formulario integrado con Formspree
 function ContactForm({ spots }) {
   const [status, setStatus] = useState('idle');
   const [errors, setErrors] = useState({});
@@ -417,9 +489,24 @@ function ContactForm({ spots }) {
     setErrors(errs);
     if (Object.keys(errs).length) return;
     setStatus('sending');
-    await new Promise((r) => setTimeout(r, 1200));
-    setStatus('success');
-    e.currentTarget.reset();
+
+    try {
+      // CORRECCIÓN 6: Envío real a Formspree
+      const response = await fetch(CONFIG.formspree.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        setStatus('success');
+        e.currentTarget.reset();
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
+
     setTimeout(() => setStatus('idle'), 6000);
   };
 
@@ -466,12 +553,14 @@ function ContactForm({ spots }) {
               {errors.playerAge && <p role="alert" className="mt-1.5 text-xs text-red-400">{errors.playerAge}</p>}
             </div>
           </div>
-          <Button type="submit" size="lg" fullWidth shine disabled={status === 'sending'}>
+          {/* CORRECCIÓN 4: Prop "shine" eliminada */}
+          <Button type="submit" size="lg" fullWidth disabled={status === 'sending'}>
             {status === 'sending' && (<><svg className="animate-spin motion-reduce:animate-none w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.25" strokeWidth="4" /><path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" /></svg>Enviando…</>)}
             {status === 'success' && (<><span className="text-2xl motion-safe:animate-bounce" aria-hidden="true">✅</span>¡CUPO ASEGURADO!</>)}
+            {status === 'error' && (<><span className="text-2xl" aria-hidden="true">❌</span>Error. Intenta de nuevo.</>)}
             {status === 'idle' && (<><span className="text-2xl" aria-hidden="true">🏆</span>¡QUIERO MI CUPO!</>)}
           </Button>
-          <p id={`${formId}-help`} className="text-center text-xs sm:text-sm text-white/30" aria-live="polite">{status === 'success' ? '🎉 Te contactaremos pronto. Revisa tu WhatsApp.' : '⚠️ Plazas limitadas. Te contactaremos en menos de 24 horas.'}</p>
+          <p id={`${formId}-help`} className="text-center text-xs sm:text-sm text-white/30" aria-live="polite">{status === 'success' ? '🎉 Te contactaremos pronto. Revisa tu WhatsApp.' : status === 'error' ? '❌ Hubo un error. Verifica tus datos e intenta de nuevo.' : '⚠️ Plazas limitadas. Te contactaremos en menos de 24 horas.'}</p>
         </form>
       </div>
     </section>
@@ -506,11 +595,13 @@ function App() {
       <Navbar spots={spots} />
       <main>
         <Hero spots={spots} total={CONFIG.enrollment.totalSpots} />
+        <Metodologia />
         <Gallery />
         <Testimonials />
         <ContactForm spots={spots} />
       </main>
-      <footer className="relative z-10 border-t border-[#1A3A8A]/30 py-8 px-4 text-center text-white/40 text-sm">
+      {/* CORRECCIÓN 5: Footer con padding-bottom para no ser tapado por StickyCTA */}
+      <footer className="relative z-10 border-t border-[#1A3A8A]/30 py-8 pb-28 sm:pb-32 px-4 text-center text-white/40 text-sm">
         <p>© {new Date().getFullYear()} {CONFIG.brand.fullName}. Todos los derechos reservados.</p>
       </footer>
       <StickyCTA spots={spots} />
