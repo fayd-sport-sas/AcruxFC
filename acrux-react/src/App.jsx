@@ -25,7 +25,7 @@ const CONFIG = {
     logo: '/foto/logo/logo_web_200px.png',
   },
   whatsapp: {
-    number: '573001234567',
+    number: '573222676860',
     defaultMessage: 'Hola Acrux, quiero asegurar el cupo de mi hijo',
   },
   formspree: {
