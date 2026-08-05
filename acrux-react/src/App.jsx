@@ -7,7 +7,7 @@
  * Cambios vs v1 (resumen):
  * - Formulario ahora abre WhatsApp con mensaje pre-armado (captura real)
  * - Nueva sección "Información práctica" (ubicación, horarios, qué incluye)
- * - H1 menciona "Cali" para SEO local
+ * - H1 menciona "Sibate" para SEO local
  * - Colores de placeholder accesibles (50% en vez de 20%)
  * - Imágenes con width/height (elimina CLS)
  * - Links a redes sociales en navbar y footer
@@ -64,7 +64,7 @@ const CONFIG = {
     name: 'ACRUX',
     fullName: 'Acrux Fútbol Club',
     logo: '/foto/logo/logo_web_200px.png',
-    city: 'Cali',
+    city: 'SIBATE CUNDINAMARCA',
   },
 
   // ⚠️  CAMBIAR por tu número real con código de país
@@ -78,31 +78,31 @@ formspree: {
       },
   // Ubicación física
   location: {
-    venue: 'Cancha Acrux',
-    address: 'Calle 5 #40-00, Barrio X',
-    neighborhood: 'Sur de Cali',
-    mapsUrl: 'https://maps.google.com/?q=Acrux+Futbol+Club+Cali',
-    city: 'Cali',
+    venue: 'Cancha San Martin - Sibaté',
+    address: 'Carrera 8 # 6-80 barrio San Juan',
+    neighborhood: 'Sibate Cundinamarca',
+    mapsUrl: 'https://maps.google.com/?q=Acrux+Futbol+Club+Sibate',
+    city: 'Sibate'
   },
 
   // Horarios de entrenamiento
   schedule: {
-    weekdays: 'Lunes, miércoles y viernes · 4:00 PM - 6:00 PM',
+    weekdays: 'Lunes, miércoles y viernes · 7:00 AM - 10:00 AM',
     weekends: 'Sábados · 9:00 AM - 11:00 AM',
     ageGroups: 'Categorías sub-13, sub-15, sub-17 y mayores',
   },
 
   // Precio
   price: {
-    monthly: 'Mensualidad desde $150.000 COP',
+    monthly: 'Mensualidad desde $',
     trial: 'Primera clase gratis · Sin compromiso',
   },
 
   // Redes sociales
   social: {
-    instagram: 'https://instagram.com/acruxfc',
-    facebook: 'https://facebook.com/acruxfc',
-    tiktok: 'https://tiktok.com/@acruxfc',
+    instagram: 'https://www.instagram.com/acruxfutbolclub',
+    facebook: 'https://www.facebook.com/acrux.fc.2025',
+    tiktok: 'https://www.tiktok.com/@acruxfc',
   },
 
   enrollment: {
@@ -363,7 +363,7 @@ function Hero({ spots, total }) {
   const r5 = useReveal(0.15, 400);
   const r6 = useReveal(0.15, 500);
   return (
-    <section id="top" className="relative pt-32 pb-16 px-4 sm:px-8 text-center overflow-hidden min-h-screen flex items-center" aria-label={`Academia de fútbol en ${CONFIG.brand.city}`}>
+    <section id="top" className="relative pt-32 pb-16 px-4 sm:px-8 text-center overflow-hidden min-h-screen flex items-center" aria-label={`Academia de fútbol ${CONFIG.brand.city}`}>
       <div className="absolute inset-0 bg-cover bg-center opacity-10 scale-110" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1459865264687-595d652de67e?w=1920')" }} role="img" aria-label="Fondo de estadio de fútbol" />
       <div className="relative z-10 max-w-5xl mx-auto w-full">
         <div ref={r1.ref} className={cls('transition-all ease-out', r1.className)} style={r1.style}>
@@ -375,9 +375,9 @@ function Hero({ spots, total }) {
         </div>
         <div ref={r2.ref} className={cls('transition-all ease-out', r2.className)} style={r2.style}>
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.05] mb-6">
-            ACADEMIA DE FÚTBOL EN <span className="bg-gradient-to-r from-[#4A8BFF] via-[#6AABFF] to-[#1A3A8A] bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient motion-reduce:animate-none">{CONFIG.brand.city.toUpperCase()}</span>
+            ACADEMIA DE FÚTBOL <span className="bg-gradient-to-r from-[#4A8BFF] via-[#6AABFF] to-[#1A3A8A] bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient motion-reduce:animate-none">{CONFIG.brand.city.toUpperCase()}</span>
             <br />
-            PARA JÓVENES DE 12 A 27 AÑOS
+            PRE-JUVENIL - JUVENIL
           </h1>
         </div>
         <div ref={r3.ref} className={cls('transition-all ease-out', r3.className)} style={r3.style}>
@@ -505,7 +505,7 @@ function Gallery() {
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
           <SectionHeader
-            eyebrow="VIVÍ ACRUX"
+            eyebrow="VIVE EN ACRUX"
             title="MOMENTOS"
             highlight="REALES"
             description="Entrenamientos, partidos y celebraciones de nuestros jugadores."
