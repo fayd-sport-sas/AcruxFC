@@ -94,7 +94,7 @@ const GALLERY = [
   { src: '/foto/img_10.jpg', alt: 'Celebración de gol', caption: 'Celebración', emoji: '🎉', category: 'sub15' },
   { src: '/foto/img_11.jpg', alt: 'Equipo completo', caption: 'Equipo Acrux', emoji: '🤝', category: 'all' },
   { src: '/foto/img_a02.jpg', alt: 'Trabajo con balón', caption: 'Trabajo con balón', emoji: '⚽', category: 'sub13' },
-  { src: 'https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?w=800', alt: 'Gol en el último minuto', caption: 'Gol en el último minuto', emoji: '🔥', category: 'sub17' },
+  { src: '/foto/Rivaldo.png', alt: 'Gol en el último minuto', caption: 'Gol en el último minuto', emoji: '🔥', category: 'sub17' },
   { src: 'https://images.unsplash.com/photo-1518604666860-9ed391f76460?w=800', alt: 'Entrenamiento táctico', caption: 'Trabajo táctico', emoji: '🧠', category: 'sub15' },
   { src: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800', alt: 'Resistencia física', caption: 'Resistencia', emoji: '🏃', category: 'sub13' },
 ];
@@ -119,14 +119,46 @@ const NEWS = [
   { id: 'n3', type: 'news', title: 'Valentina fue convocada a la selección Valle', description: 'Nuestra jugadora de 13 años representará al Valle del Cauca en el torneo nacional sub-15.', date: '2026-07-22', badge: '⭐ NOTICIA', badgeColor: 'blue', image: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800', href: '#' },
   { id: 'n4', type: 'match', title: 'Sub-15 ganó la Copa Comfandi 2026', description: 'Torneo invicto: 5 partidos, 4 victorias, 1 empate. ¡Campeones!', date: '2026-07-15', badge: '🏆 TÍTULO', badgeColor: 'green', image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800', href: '#' },
   { id: 'n5', type: 'campaign', title: 'Torneo Relámpago este sábado', description: '3v3 mixto para todas las categorías. Inscripción gratis para jugadores Acrux. Cupos limitados.', date: '2026-08-05', badge: '🔥 EVENTO', badgeColor: 'red', image: 'https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?w=800', href: '#contacto' },
-  { id: 'n6', type: 'news', title: 'Scouting de Millonarios en nuestras canchas', description: 'Ojeadores del club bogotano visitaron nuestros entrenamientos. 3 jugadores fueron preseleccionados.', date: '2026-07-10', badge: '⭐ NOTICIA', badgeColor: 'blue', image: 'https://images.unsplash.com/photo-1518604666860-9ed391f76460?w=800', href: '#' },
-  { id: 'n6', type: 'news', title: 'Scouting de Millonarios en nuestras canchas', description: 'Ojeadores del club bogotano visitaron nuestros entrenamientos. 3 jugadores fueron preseleccionados.', date: '2026-07-10', badge: '⭐ NOTICIA', badgeColor: 'blue', image: 'https://images.unsplash.com/photo-1518604666860-9ed391f76460?w=800', href: '#' },
+ {
+  id: 'n6',
+  type: 'news',
+  title: 'Gracias a Acrux FC estoy jugando en Patriotas',
+  description: 'Gracias, Dios por este sueño. 🙏❤️💛.',
+  fullContent: `Gracias a Acrux FC ESTOY JUGANDO EN PATRIOTAS BOYACÁ
 
+Quiero expresar mi más sincero agradecimiento al Club Deportivo Patriotas de Tunja por abrirme las puertas y brindarme la oportunidad de formar parte de sus divisiones inferiores.
+Gracias a su confianza, a mi familia, a mi club Acrux FC que me formó desde el inicio, y a cada entrenador que creyó en mí, hoy cumplo un sueño que parecía lejano. Llevar estos colores es un orgullo y una responsabilidad que asumo con trabajo, humildad y compromiso.
+Prometo dar lo mejor de mí en cada entrenamiento y partido para honrar esta camiseta y dejar en alto el nombre de Patriotas y de Acrux FC.
+
+Con gratitud,
+Rivaldo
+Acrux FC -> Patriotas Boyacá`,
+  date: '2026-07-10',
+  badge: '⭐ NOTICIA',
+  badgeColor: 'blue',
+  image: '/foto/Rivaldo.png',
+  gallery: [],
+  href: '#',
+},
+ {
+  id: 'n6',
+  type: 'news',
+  title: 'Agradecido con Dios y con Acrux FC por abrirme las puertas de esta familia. Vamos a trabajar por los sueños de nuestros jóvenes.',
+  description: 'Soy Phil Jackson Ibargüen, Manager de Acrux FC..',
+  fullContent: `Nuestro Manager: Phil Jackson Ibargüen Sánchez
+Nacido en Acandí, Chocó. Exdelantero profesional (Debut 2004 Cortuluá) y seleccionado Colombia Sub-20 que disputó el Torneo Esperanzas de Toulón 2004 junto a Falcao García y Freddy Guarín, marcando gol ante China. Con experiencia en clubes de Colombia, Ecuador, Portugal y Bosnia, hoy pone su experiencia y liderazgo al servicio de nuestros jóvenes talentos en Acrux FC`,
+  date: '2026-07-10',
+  badge: '⭐ NOTICIA',
+  badgeColor: 'blue',
+  image: '/foto/phil.png',
+  gallery: [],
+  href: '#',
+},
 ];
 
 const VIDEOS = [
-  { id: 'v1', title: 'Mateo: "Acrux me cambió la vida"', player: 'Mateo R. · Sub-17', duration: '2:14', youtubeId: 'dQw4w9WgXcQ', description: 'Mateo cuenta cómo llegó a Acrux hace un año y su progreso en el equipo.', emoji: '🎙️' },
-  { id: 'v2', title: 'Valentina: de 0 a seleccionada', player: 'Valentina P. · Sub-15', duration: '1:48', youtubeId: 'dQw4w9WgXcQ', description: 'El camino de Valentina hasta la convocatoria a la selección Valle.', emoji: '⭐' },
+  { id: 'v1', title: 'Mateo: "Acrux me cambió la vida"', player: 'Mateo R. · Sub-17', duration: '2:14', youtubeId: 'cceE67xo9mo', description: 'Mateo cuenta cómo llegó a Acrux hace un año y su progreso en el equipo.', emoji: '🎙️' },
+  { id: 'v2', title: 'Valentina: de 0 a seleccionada', player: 'Valentina P. · Sub-15', duration: '1:48', youtubeId: 'tFRaTMwEIbY', description: 'El camino de Valentina hasta la convocatoria a la selección Valle.', emoji: '⭐' },
   { id: 'v3', title: 'Entrenador: "Nuestra metodología"', player: 'Prof. Carlos · DT Principal', duration: '3:22', youtubeId: 'dQw4w9WgXcQ', description: 'El profe Carlos explica cómo entrenamos y qué nos diferencia de otras academias.', emoji: '👨‍🏫' },
   { id: 'v4', title: 'Mamá de Santiago: testimonio', player: 'Carolina H. · Mamá de jugador', duration: '1:35', youtubeId: 'dQw4w9WgXcQ', description: 'Carolina nos cuenta por qué eligió Acrux y qué vio en su hijo en estos meses.', emoji: '💬' },
 ];
@@ -1038,7 +1070,7 @@ function VideosSection() {
           <button type="button" onClick={() => setActive(null)} aria-label="Cerrar video" className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white text-xl flex items-center justify-center z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">✕</button>
           <div className="w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
             <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-2xl bg-black">
-              <iframe src={`https://www.youtube-nocookie.com/embed/wpi07vjfwwc?rel=0`} title={active.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
+              <iframe src={`https://www.youtube.com/embed/${active.youtubeId}?autoplay=1&rel=0`} title={active.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
             </div>
             <div className="mt-4 text-white">
               <p className="text-sm text-[#4A8BFF] font-black mb-1">{active.player}</p>
