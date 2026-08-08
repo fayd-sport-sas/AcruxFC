@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678/
+      - GENERIC_TIMEZONE=America/Bogota
+      - N8N_BASIC_AUTH_ACTIVE=false
+      # Para que n8n pueda hablar con Ollama y Whisper por nombre de servicio
+      - OLLAMA_HOST=http://ollama:11434
+    volumes:
+      - ./n8n_data:/home/node/.n8n
+      - ./videos:/home/node/videos
+      # Instalamos ffmpeg dentro del contenedor al iniciar
+    entrypoint: >
+      /bin/sh -c "
+      apk add --no-cache ffmpeg python3 py3-pip &&
+      pip3 install --no-cache-dir openai-whisper --break-system-packages || true &&
+      n8n start
+      "
+  
+  ollama:
+    image: ollama/ollama:latest
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_ORIGINS=*
+    # Para GPU Nvidia descomenta estas 2 lineas:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  whisper:
+    image: onerahmet/openai-whisper-asr-webservice:latest
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      - ASR_MODEL=medium
+      - ASR_ENGINE=openai_whisper
+      - ASR_MODEL_PATH=/app/models
+    volumes:
+      - ./whisper_models:/app/models
+    command: --language es
+
+volumes:
+  n8n_data:
+  ollama_data:
+  whisper_models:
