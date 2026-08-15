@@ -841,16 +841,7 @@ function NewsCarousel() {
     const idx = kids.findIndex((k) => {
       const kCenter = k.offsetLeft + k.offsetWidth / 2;
       return Math.abs(kCenter - center) < k.offsetWidth / 2;
-    });useEffect(() => {
-  if (!activeNews) return;
-  const onKey = (e) => { if (e.key === 'Escape') setActiveNews(null); };
-  document.addEventListener('keydown', onKey);
-  document.body.style.overflow = 'hidden';
-  return () => {
-    document.removeEventListener('keydown', onKey);
-    document.body.style.overflow = '';
-  };
-}, [activeNews]);
+    });
     if (idx >= 0 && idx !== activeIndex) setActiveIndex(idx);
   }, [activeIndex]);
   useEffect(() => {
@@ -859,6 +850,17 @@ function NewsCarousel() {
     el.addEventListener('scroll', onScroll, { passive: true });
     return () => el.removeEventListener('scroll', onScroll);
   }, [onScroll]);
+  // Cerrar el modal con Escape y bloquear el scroll de fondo mientras está abierto
+  useEffect(() => {
+    if (!activeNews) return;
+    const onKey = (e) => { if (e.key === 'Escape') setActiveNews(null); };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [activeNews]);
   const badgeColors = {
     blue: 'bg-[#4A8BFF]/20 text-[#4A8BFF] border-[#4A8BFF]/40',
     green: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
@@ -883,7 +885,14 @@ function NewsCarousel() {
           <ul ref={scrollerRef} className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 scroll-smooth" style={{ scrollbarWidth: 'thin', scrollbarColor: '#4A8BFF transparent' }} aria-label="Lista de noticias y partidos">
             {NEWS.map((item) => (
               <li key={item.id} className="snap-center shrink-0 w-[85vw] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
-                <article className="group h-full bg-gradient-to-br from-[#1A3A8A]/10 to-[#4A8BFF]/10 backdrop-blur-md border-2 border-[#4A8BFF]/30 rounded-2xl overflow-hidden transition-[transform,border-color,box-shadow] duration-500 hover:border-[#4A8BFF]/60 hover:shadow-2xl hover:shadow-[#1A3A8A]/30 hover:-translate-y-1 motion-reduce:hover:translate-y-0">
+                <article
+                  onClick={() => setActiveNews(item)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveNews(item); } }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Abrir noticia: ${item.title}`}
+                  className="group h-full cursor-pointer bg-gradient-to-br from-[#1A3A8A]/10 to-[#4A8BFF]/10 backdrop-blur-md border-2 border-[#4A8BFF]/30 rounded-2xl overflow-hidden transition-[transform,border-color,box-shadow] duration-500 hover:border-[#4A8BFF]/60 hover:shadow-2xl hover:shadow-[#1A3A8A]/30 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF] motion-reduce:hover:translate-y-0"
+                >
                   <div className="relative aspect-video overflow-hidden">
                     <img src={item.image} alt="" loading="lazy" width="800" height="450" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800'; }} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 motion-reduce:transition-none" />
                     <span className={cls('absolute top-3 left-3 text-xs font-black px-3 py-1.5 rounded-full border backdrop-blur-md', badgeColors[item.badgeColor] || badgeColors.blue)}>{item.badge}</span>
@@ -934,7 +943,10 @@ function NewsCarousel() {
       className="w-full max-w-2xl my-8" 
       onClick={(e) => e.stopPropagation()}
     >
-      <article className="bg-gradient-to-br from-[#1A3A8A]/20 to-[#4A8BFF]/20 backdrop-blur-xl border-2 border-[#4A8BFF]/40 rounded-3xl overflow-hidden shadow-2xl">
+      <article
+        className="bg-gradient-to-br from-[#1A3A8A]/20 to-[#4A8BFF]/20 backdrop-blur-xl border-2 border-[#4A8BFF]/40 rounded-3xl overflow-hidden shadow-2xl max-h-[85vh] overflow-y-auto"
+        style={{ scrollbarWidth: "thin", scrollbarColor: "#4A8BFF transparent" }}
+      >
         {/* Imagen destacada */}
         <div className="relative aspect-video overflow-hidden">
           <img 
