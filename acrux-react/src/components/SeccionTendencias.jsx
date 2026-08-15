@@ -1,5 +1,24 @@
 import { useEffect, useState } from "react";
 
+/**
+ * Sección de Tendencias — lo que publica el agente (/publicar-web).
+ * Modelo de diseño inspirado en z.ai: tipografía grande, números fantasma,
+ * bordes finos, etiquetas en píldora y divisores de pelo.
+ * Paleta: azules del club (#1A3A8A / #4A8BFF).
+ */
+
+const pad2 = (n) => String(n).padStart(2, "0");
+
+function EncabezadoGrupo({ indice, titulo }) {
+  return (
+    <div className="flex items-center gap-4 mb-6">
+      <span className="text-[11px] font-bold tracking-[2px] text-[#4A8BFF] tabular-nums">{indice}</span>
+      <h3 className="text-sm font-bold tracking-[2px] uppercase text-white/70 whitespace-nowrap">{titulo}</h3>
+      <span className="h-px flex-1 bg-white/10" aria-hidden="true" />
+    </div>
+  );
+}
+
 export default function SeccionTendencias() {
   const [datos, setDatos] = useState(null);
   const [cargando, setCargando] = useState(true);
@@ -17,20 +36,14 @@ export default function SeccionTendencias() {
   }, []);
 
   if (cargando) return (
-    <section className="w-full py-16 px-4">
+    <section className="w-full py-16 px-4" aria-label="Tendencias">
       <div className="max-w-6xl mx-auto text-center">
-        <p className="text-gray-400 animate-pulse">Cargando tendencias...</p>
+        <p className="text-white/40 animate-pulse">Cargando tendencias…</p>
       </div>
     </section>
   );
 
-  if (error) return (
-    <section className="w-full py-16 px-4">
-      <div className="max-w-6xl mx-auto text-center">
-        <p className="text-gray-500">No se pudieron cargar las tendencias por ahora.</p>
-      </div>
-    </section>
-  );
+  if (error) return null;
 
   if (!datos) return null;
 
@@ -39,118 +52,103 @@ export default function SeccionTendencias() {
     : "";
 
   return (
-    <section className="w-full py-16 px-4 bg-gradient-to-b from-black via-gray-900 to-black">
+    <section id="tendencias" className="w-full py-16 sm:py-20 px-4 sm:px-8" aria-labelledby="tendencias-title">
       <div className="max-w-6xl mx-auto">
 
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-900/30 border border-green-600/50 mb-4">
-            <span className="text-green-400 text-sm font-medium">Tendencias del mercado</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-            Tendencias y <span className="text-green-400">Novedades</span>
+        {/* Encabezado centrado */}
+        <header className="text-center mb-14">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#4A8BFF]/30 bg-[#1A3A8A]/20 text-[#4A8BFF] text-xs font-semibold tracking-[2px] uppercase mb-5">
+            Tendencias del mercado
+          </span>
+          <h2 id="tendencias-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-4 leading-tight">
+            Tendencias y{" "}
+            <span className="bg-gradient-to-r from-[#4A8BFF] to-[#6AABFF] bg-clip-text text-transparent">Novedades</span>
           </h2>
-          <p className="text-gray-400 text-sm">
-            Actualizado: {fechaFormateada}
-          </p>
-        </div>
+          {fechaFormateada && (
+            <p className="text-white/40 text-sm">
+              Actualizado: {fechaFormateada}
+            </p>
+          )}
+        </header>
 
-        {/* Tendencias de Producto */}
-        <div className="mb-12">
-          <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-            <span className="w-1 h-6 bg-green-500 rounded-full"></span>
-            Lo que está en tendencia
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {datos.tendencias_producto?.map((tendencia, i) => (
-              <div
-                key={i}
-                className="bg-gray-900/50 border border-gray-800 rounded-xl p-5 hover:border-green-600/50 transition-all duration-300 hover:shadow-lg hover:shadow-green-900/20"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-green-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-green-400 text-lg">●</span>
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold text-sm mb-2">{tendencia.tendencia}</h4>
-                    <p className="text-gray-400 text-xs leading-relaxed">{tendencia.descripcion}</p>
+        {/* Tendencias de producto */}
+        {datos.tendencias_producto?.length > 0 && (
+          <div className="mb-14">
+            <EncabezadoGrupo indice="01" titulo="Lo que está en tendencia" />
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 list-none">
+              {datos.tendencias_producto.map((tendencia, i) => (
+                <li key={i}>
+                  <article className="group h-full rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-all duration-300 hover:border-[#4A8BFF]/40 hover:bg-white/[0.05] hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none">
+                    <div className="text-4xl font-extrabold text-white/10 tabular-nums mb-3 group-hover:text-[#4A8BFF]/25 transition-colors">{pad2(i + 1)}</div>
+                    <h4 className="text-white font-bold text-base mb-2 leading-snug">{tendencia.tendencia}</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">{tendencia.descripcion}</p>
                     {tendencia.fuente && (
-                      <p className="text-green-600 text-xs mt-2">📌 {tendencia.fuente}</p>
+                      <p className="mt-4 text-xs text-white/30 flex items-center gap-1.5">
+                        <span className="w-1 h-1 rounded-full bg-[#4A8BFF]" aria-hidden="true" />
+                        {tendencia.fuente}
+                      </p>
                     )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Tendencias de Contenido */}
-        {datos.tendencias_contenido && datos.tendencias_contenido.length > 0 && (
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-              <span className="w-1 h-6 bg-blue-500 rounded-full"></span>
-              Tendencias en redes sociales
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {datos.tendencias_contenido?.map((item, i) => (
-                <div
-                  key={i}
-                  className="bg-gray-900/50 border border-gray-800 rounded-xl p-5 hover:border-blue-600/50 transition-all duration-300"
-                >
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-blue-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-blue-400">
-                        {item.plataforma === "TikTok" ? "🎵" : item.plataforma === "Instagram" ? "📸" : "📱"}
-                      </span>
-                    </div>
-                    <div>
-                      <h4 className="text-white font-semibold text-sm mb-2">{item.formato}</h4>
-                      <p className="text-gray-400 text-xs leading-relaxed">{item.descripcion}</p>
-                      <span className="inline-block mt-2 text-xs px-2 py-1 rounded-full bg-gray-800 text-gray-300">
-                        {item.plataforma}
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                  </article>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         )}
 
-        {/* Ideas de Contenido */}
-        {datos.ideas_contenido && datos.ideas_contenido.length > 0 && (
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-              <span className="w-1 h-6 bg-yellow-500 rounded-full"></span>
-              Ideas de contenido listas para grabar
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {datos.ideas_contenido?.map((idea, i) => (
-                <div
-                  key={i}
-                  className="bg-gradient-to-r from-yellow-900/20 to-transparent border border-yellow-800/30 rounded-xl p-4 flex items-start gap-3 hover:border-yellow-600/50 transition-all duration-300"
-                >
-                  <span className="w-6 h-6 rounded-full bg-yellow-600/30 flex items-center justify-center flex-shrink-0 text-yellow-400 text-sm font-bold">
-                    {i + 1}
-                  </span>
-                  <p className="text-gray-300 text-sm leading-relaxed">{idea}</p>
-                </div>
+        {/* Tendencias de contenido */}
+        {datos.tendencias_contenido?.length > 0 && (
+          <div className="mb-14">
+            <EncabezadoGrupo indice="02" titulo="Tendencias en redes" />
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 list-none">
+              {datos.tendencias_contenido.map((item, i) => (
+                <li key={i}>
+                  <article className="h-full rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-all duration-300 hover:border-[#4A8BFF]/40 hover:bg-white/[0.05] hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none">
+                    <div className="flex items-start justify-between gap-3 mb-3">
+                      <div className="text-4xl font-extrabold text-white/10 tabular-nums">{pad2(i + 1)}</div>
+                      {item.plataforma && (
+                        <span className="inline-flex items-center px-3 py-1 rounded-full border border-[#4A8BFF]/30 bg-[#1A3A8A]/20 text-[#4A8BFF] text-[11px] font-semibold tracking-wide">
+                          {item.plataforma}
+                        </span>
+                      )}
+                    </div>
+                    <h4 className="text-white font-bold text-base mb-2 leading-snug">{item.formato}</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">{item.descripcion}</p>
+                  </article>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         )}
 
-        {/* Sugerencias de Campaña */}
-        {datos.sugerencias_campana && datos.sugerencias_campana.length > 0 && (
-          <div className="bg-green-900/10 border border-green-800/30 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold text-green-400 mb-4 flex items-center gap-2">
-              💡 Sugerencias de campaña
-            </h3>
-            <ul className="space-y-3">
-              {datos.sugerencias_campana?.map((sugerencia, i) => (
-                <li key={i} className="flex items-start gap-3 text-gray-300 text-sm">
-                  <span className="text-green-500 mt-0.5">✓</span>
-                  <span>{sugerencia}</span>
+        {/* Ideas de contenido */}
+        {datos.ideas_contenido?.length > 0 && (
+          <div className="mb-14">
+            <EncabezadoGrupo indice="03" titulo="Ideas listas para grabar" />
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 list-none">
+              {datos.ideas_contenido.map((idea, i) => (
+                <li key={i} className="flex items-start gap-4 rounded-xl border border-white/10 bg-white/[0.02] px-5 py-4 transition-colors duration-300 hover:border-[#4A8BFF]/30">
+                  <span className="text-sm font-bold text-[#4A8BFF] tabular-nums pt-0.5 shrink-0">{pad2(i + 1)}</span>
+                  <p className="text-white/60 text-sm leading-relaxed">{idea}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Sugerencias de campaña */}
+        {datos.sugerencias_campana?.length > 0 && (
+          <div className="rounded-2xl border border-[#4A8BFF]/25 bg-gradient-to-b from-[#1A3A8A]/20 via-[#1A3A8A]/5 to-transparent p-6 sm:p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <h3 className="text-sm font-bold tracking-[2px] uppercase text-[#4A8BFF] whitespace-nowrap">Sugerencias de campaña</h3>
+              <span className="h-px flex-1 bg-[#4A8BFF]/20" aria-hidden="true" />
+            </div>
+            <ul className="space-y-4 list-none">
+              {datos.sugerencias_campana.map((sugerencia, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <svg className="w-4 h-4 mt-1 shrink-0 text-[#4A8BFF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+                    <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span className="text-white/70 text-sm leading-relaxed">{sugerencia}</span>
                 </li>
               ))}
             </ul>

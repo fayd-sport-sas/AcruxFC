@@ -1564,6 +1564,7 @@ function App() {
       <main>
         <Hero spots={spots} total={CONFIG.enrollment.totalSpots} />
         <NextMatchCountdown />
+        <SeccionTendencias />
         <PlayerStats />
         <InfoSection />
         <PositionQuiz />
@@ -1577,8 +1578,7 @@ function App() {
       <Footer />
       <StickyCTA spots={spots} />
       <WhatsAppFloat />
-              <SeccionTendencias />
-</div>
+    </div>
   );
 }
 
