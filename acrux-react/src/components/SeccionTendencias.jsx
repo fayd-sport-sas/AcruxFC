@@ -178,9 +178,19 @@ export default function SeccionTendencias() {
             {activa === "ideas" && (
               <ul id="panel-ideas" role="tabpanel" className="space-y-3 list-none">
                 {datos.ideas_contenido.map((idea, i) => (
-                  <li key={i} className="flex items-start gap-4 rounded-xl border border-white/10 bg-white/[0.02] px-5 py-4 transition-colors duration-300 hover:border-[#4A8BFF]/30">
-                    <span className="text-sm font-bold text-[#4A8BFF] tabular-nums pt-0.5 shrink-0">{pad2(i + 1)}</span>
-                    <p className="text-white/60 text-sm leading-relaxed">{idea}</p>
+                  <li key={i}>
+                    <article
+                      onClick={() => setAbierta({ tipo: "ideas", item: idea, indice: i })}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setAbierta({ tipo: "ideas", item: idea, indice: i }); } }}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Ampliar idea ${i + 1}`}
+                      className="flex items-start gap-4 cursor-pointer rounded-xl border border-white/10 bg-white/[0.02] px-5 py-4 transition-all duration-300 hover:border-[#4A8BFF]/40 hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]"
+                    >
+                      <span className="text-sm font-bold text-[#4A8BFF] tabular-nums pt-0.5 shrink-0">{pad2(i + 1)}</span>
+                      <p className="text-white/60 text-sm leading-relaxed line-clamp-2">{idea}</p>
+                      <span className="text-[#4A8BFF]/50 text-lg leading-none pt-0.5 shrink-0" aria-hidden="true">⤢</span>
+                    </article>
                   </li>
                 ))}
               </ul>
@@ -189,13 +199,22 @@ export default function SeccionTendencias() {
             {/* 04 — Sugerencias de campaña */}
             {activa === "campana" && (
               <div id="panel-campana" role="tabpanel" className="bg-gradient-to-b from-[#1A3A8A]/20 via-[#1A3A8A]/5 to-transparent rounded-xl border border-[#4A8BFF]/25 p-5 sm:p-6">
-                <ul className="space-y-4 list-none">
+                <ul className="space-y-3 list-none">
                   {datos.sugerencias_campana.map((s, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <svg className="w-4 h-4 mt-1 shrink-0 text-[#4A8BFF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
-                        <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      <span className="text-white/70 text-sm leading-relaxed">{s}</span>
+                    <li key={i}>
+                      <article
+                        onClick={() => setAbierta({ tipo: "campana", item: s, indice: i })}
+                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setAbierta({ tipo: "campana", item: s, indice: i }); } }}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Ampliar sugerencia ${i + 1}`}
+                        className="flex items-start gap-3 cursor-pointer rounded-lg px-2 py-2 -mx-2 transition-colors duration-300 hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]"
+                      >
+                        <svg className="w-4 h-4 mt-1 shrink-0 text-[#4A8BFF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+                          <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <p className="text-white/70 text-sm leading-relaxed line-clamp-2">{s}</p>
+                      </article>
                     </li>
                   ))}
                 </ul>
@@ -207,60 +226,68 @@ export default function SeccionTendencias() {
       </div>
 
       {/* Modal de lectura ampliada (con scroll si el texto es largo) */}
-      {abierta && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={abierta.item.tendencia || abierta.item.formato}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
-          onClick={() => setAbierta(null)}
-        >
-          <button
-            type="button"
+      {abierta && (() => {
+        const esTexto = typeof abierta.item === "string";
+        const titulos = { ideas: "Idea para grabar", campana: "Sugerencia de campaña", producto: "Tendencia", redes: "Tendencia en redes" };
+        const titulo = esTexto ? `${titulos[abierta.tipo]} ${pad2(abierta.indice + 1)}` : (abierta.item.tendencia || abierta.item.formato);
+        const contenido = esTexto ? abierta.item : abierta.item.descripcion;
+        const plataforma = esTexto ? null : abierta.item.plataforma;
+        const fuente = esTexto ? null : abierta.item.fuente;
+        return (
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={titulo}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
             onClick={() => setAbierta(null)}
-            aria-label="Cerrar"
-            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white text-xl flex items-center justify-center z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
-            ✕
-          </button>
-          <div className="w-full max-w-lg" onClick={(e) => e.stopPropagation()}>
-            <article
-              className="bg-gradient-to-br from-[#1A3A8A]/20 to-[#4A8BFF]/20 backdrop-blur-xl border-2 border-[#4A8BFF]/40 rounded-3xl overflow-hidden shadow-2xl max-h-[80vh] overflow-y-auto"
-              style={{ scrollbarWidth: "thin", scrollbarColor: "#4A8BFF transparent" }}
+            <button
+              type="button"
+              onClick={() => setAbierta(null)}
+              aria-label="Cerrar"
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white text-xl flex items-center justify-center z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
-              <div className="p-6 sm:p-8">
-                <div className="flex items-center justify-between gap-3 mb-4">
-                  <span className="text-5xl font-extrabold text-white/10 tabular-nums">{pad2(abierta.indice + 1)}</span>
-                  {abierta.item.plataforma && (
-                    <span className="inline-flex items-center px-3 py-1 rounded-full border border-[#4A8BFF]/30 bg-[#1A3A8A]/20 text-[#4A8BFF] text-[11px] font-semibold tracking-wide">
-                      {abierta.item.plataforma}
-                    </span>
-                  )}
-                </div>
-                <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight mb-4">
-                  {abierta.item.tendencia || abierta.item.formato}
-                </h3>
-                <p className="text-white/70 text-sm sm:text-base leading-relaxed whitespace-pre-line">
-                  {abierta.item.descripcion}
-                </p>
-                {abierta.item.fuente && (
-                  <p className="mt-5 text-xs text-white/40 flex items-center gap-1.5">
-                    <span className="w-1 h-1 rounded-full bg-[#4A8BFF]" aria-hidden="true" />
-                    Fuente: {abierta.item.fuente}
+              ✕
+            </button>
+            <div className="w-full max-w-lg" onClick={(e) => e.stopPropagation()}>
+              <article
+                className="bg-gradient-to-br from-[#1A3A8A]/20 to-[#4A8BFF]/20 backdrop-blur-xl border-2 border-[#4A8BFF]/40 rounded-3xl overflow-hidden shadow-2xl max-h-[80vh] overflow-y-auto"
+                style={{ scrollbarWidth: "thin", scrollbarColor: "#4A8BFF transparent" }}
+              >
+                <div className="p-6 sm:p-8">
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <span className="text-5xl font-extrabold text-white/10 tabular-nums">{pad2(abierta.indice + 1)}</span>
+                    {plataforma && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full border border-[#4A8BFF]/30 bg-[#1A3A8A]/20 text-[#4A8BFF] text-[11px] font-semibold tracking-wide">
+                        {plataforma}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight mb-4">
+                    {titulo}
+                  </h3>
+                  <p className="text-white/70 text-sm sm:text-base leading-relaxed whitespace-pre-line">
+                    {contenido}
                   </p>
-                )}
-                <button
-                  type="button"
-                  onClick={() => setAbierta(null)}
-                  className="mt-6 w-full bg-white/5 hover:bg-white/10 border border-white/10 px-5 py-3 rounded-xl font-bold text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]"
-                >
-                  Cerrar
-                </button>
-              </div>
-            </article>
+                  {fuente && (
+                    <p className="mt-5 text-xs text-white/40 flex items-center gap-1.5">
+                      <span className="w-1 h-1 rounded-full bg-[#4A8BFF]" aria-hidden="true" />
+                      Fuente: {fuente}
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setAbierta(null)}
+                    className="mt-6 w-full bg-white/5 hover:bg-white/10 border border-white/10 px-5 py-3 rounded-xl font-bold text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]"
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              </article>
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </section>
   );
 }
