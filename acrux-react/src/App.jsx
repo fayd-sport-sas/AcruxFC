@@ -17,6 +17,7 @@
  */
 
 import { useState, useEffect, useId, useRef, useCallback, useMemo } from 'react';
+import SeccionTendencias from './components/SeccionTendencias';
 
 // ════════════════════════════════════════════
 // CONFIGURACIÓN
@@ -1576,7 +1577,8 @@ function App() {
       <Footer />
       <StickyCTA spots={spots} />
       <WhatsAppFloat />
-    </div>
+              <SeccionTendencias />
+</div>
   );
 }
 
