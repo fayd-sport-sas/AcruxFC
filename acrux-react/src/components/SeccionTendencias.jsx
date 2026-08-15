@@ -41,16 +41,20 @@ export default function SeccionTendencias() {
   }, [abierta]);
 
   if (cargando) return (
-    <section className="w-full py-16 px-4" aria-label="Tendencias">
+    <section id="tendencias" className="w-full py-16 px-4" aria-label="Tendencias">
       <div className="max-w-6xl mx-auto text-center">
         <p className="text-white/40 animate-pulse">Cargando tendencias…</p>
       </div>
     </section>
   );
 
-  if (error) return null;
-
-  if (!datos) return null;
+  if (error || !datos) return (
+    <section id="tendencias" className="w-full py-16 px-4" aria-label="Tendencias">
+      <div className="max-w-6xl mx-auto text-center">
+        <p className="text-white/30 text-sm">Las tendencias se están actualizando. Volvé en un rato.</p>
+      </div>
+    </section>
+  );
 
   const fechaFormateada = datos.fecha_publicacion
     ? new Date(datos.fecha_publicacion).toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" })

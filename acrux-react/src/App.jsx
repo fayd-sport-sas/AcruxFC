@@ -78,6 +78,8 @@ const CONFIG = {
 };
 
 const NAV_LINKS = [
+  { href: '#top', label: 'Inicio' },
+  { href: '#tendencias', label: 'Tendencias' },
   { href: '#info', label: 'Info' },
   { href: '#galeria', label: 'Galería' },
   { href: '#news', label: 'Noticias' },
@@ -492,13 +494,13 @@ function Navbar({ spots }) {
               <p className="text-[10px] text-white/50 tracking-[4px]">FÚTBOL · {CONFIG.brand.city.toUpperCase()}</p>
             </div>
           </a>
-          <ul className="hidden md:flex items-center gap-4">
+          <ul className="hidden lg:flex items-center gap-2 xl:gap-4">
             {NAV_LINKS.map((l) => (
-              <li key={l.href}><a href={l.href} className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-200 px-2 py-1 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]">{l.label}</a></li>
+              <li key={l.href}><a href={l.href} className="text-xs xl:text-sm font-medium text-white/70 hover:text-white transition-colors duration-200 lg:px-1.5 xl:px-2 py-1 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]">{l.label}</a></li>
             ))}
           </ul>
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 bg-[#1A3A8A]/20 border border-[#4A8BFF]/30 px-3 py-1.5 rounded-full text-sm font-bold text-white" role="status" aria-live="polite">
+            <div className="hidden xl:flex items-center gap-2 bg-[#1A3A8A]/20 border border-[#4A8BFF]/30 px-3 py-1.5 rounded-full text-sm font-bold text-white" role="status" aria-live="polite">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="absolute inline-flex h-full w-full rounded-full bg-[#4A8BFF] opacity-75 animate-ping motion-reduce:animate-none" />
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#4A8BFF]" />
@@ -508,14 +510,14 @@ function Navbar({ spots }) {
             <Button href="#contacto" size="sm" variant="whatsapp" className="hidden sm:inline-flex">
               <span aria-hidden="true">⚡</span><span>¡PROBAR!</span>
             </Button>
-            <button type="button" aria-label={open ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(o => !o)} className="md:hidden p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]">
+            <button type="button" aria-label={open ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(o => !o)} className="lg:hidden p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 {open ? <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round" /> : (<><path d="M3 6h18" strokeLinecap="round" /><path d="M3 12h18" strokeLinecap="round" /><path d="M3 18h18" strokeLinecap="round" /></>)}
               </svg>
             </button>
           </div>
         </div>
-        <div id="mobile-menu" className={cls('md:hidden overflow-hidden transition-[max-height,opacity] duration-300', open ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0')}>
+        <div id="mobile-menu" className={cls('lg:hidden overflow-hidden transition-[max-height,opacity] duration-300', open ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0')}>
           <ul className="flex flex-col gap-1 px-4 pb-4">
             {NAV_LINKS.map((l) => (
               <li key={l.href}><a href={l.href} onClick={() => setOpen(false)} className="block px-4 py-3 rounded-lg text-white/80 hover:text-white hover:bg-white/5 transition-colors">{l.label}</a></li>

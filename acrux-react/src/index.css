@@ -37,3 +37,8 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Evita que el título de cada sección quede tapado por el navbar fijo al navegar por anclas */
+section[id] {
+  scroll-margin-top: 5rem;
+}
