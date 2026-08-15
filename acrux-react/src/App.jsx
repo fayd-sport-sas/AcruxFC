@@ -142,7 +142,7 @@ Acrux FC -> Patriotas Boyacá`,
   href: '#',
 },
  {
-  id: 'n6',
+  id: 'n7',
   type: 'news',
   title: 'Agradecido con Dios y con Acrux FC por abrirme las puertas de esta familia. Vamos a trabajar por los sueños de nuestros jóvenes.',
   description: 'Soy Phil Jackson Ibargüen, Manager de Acrux FC..',

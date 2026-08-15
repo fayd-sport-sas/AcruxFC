@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
  * Modelo de diseño z.ai con paleta del club (#1A3A8A / #4A8BFF):
  * 4 botones tipo píldora; cada uno despliega su grupo en un panel
  * expandible de altura fija que se lee con scroll interno.
+ * Las tarjetas se amplían al hacer clic (modal de lectura con scroll).
  */
 
 const pad2 = (n) => String(n).padStart(2, "0");
@@ -14,6 +15,7 @@ export default function SeccionTendencias() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
   const [activa, setActiva] = useState("producto");
+  const [abierta, setAbierta] = useState(null);
 
   useEffect(() => {
     fetch("/content/tendencias-latest.json")
@@ -25,6 +27,18 @@ export default function SeccionTendencias() {
       .catch((err) => setError(err.message))
       .finally(() => setCargando(false));
   }, []);
+
+  // Cerrar el modal con Escape y bloquear el scroll de fondo
+  useEffect(() => {
+    if (!abierta) return;
+    const onKey = (e) => { if (e.key === "Escape") setAbierta(null); };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [abierta]);
 
   if (cargando) return (
     <section className="w-full py-16 px-4" aria-label="Tendencias">
@@ -108,10 +122,17 @@ export default function SeccionTendencias() {
               <ul id="panel-producto" role="tabpanel" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 list-none">
                 {datos.tendencias_producto.map((t, i) => (
                   <li key={i}>
-                    <article className="group h-full rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-[#4A8BFF]/40 hover:bg-white/[0.05]">
+                    <article
+                      onClick={() => setAbierta({ tipo: "producto", item: t, indice: i })}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setAbierta({ tipo: "producto", item: t, indice: i }); } }}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Ampliar: ${t.tendencia}`}
+                      className="group h-full cursor-pointer rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-[#4A8BFF]/40 hover:bg-white/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]"
+                    >
                       <div className="text-3xl font-extrabold text-white/10 tabular-nums mb-2 group-hover:text-[#4A8BFF]/25 transition-colors">{pad2(i + 1)}</div>
                       <h4 className="text-white font-bold text-sm mb-2 leading-snug">{t.tendencia}</h4>
-                      <p className="text-white/50 text-xs leading-relaxed">{t.descripcion}</p>
+                      <p className="text-white/50 text-xs leading-relaxed line-clamp-3">{t.descripcion}</p>
                       {t.fuente && (
                         <p className="mt-3 text-[11px] text-white/30 flex items-center gap-1.5">
                           <span className="w-1 h-1 rounded-full bg-[#4A8BFF]" aria-hidden="true" />
@@ -129,7 +150,14 @@ export default function SeccionTendencias() {
               <ul id="panel-redes" role="tabpanel" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 list-none">
                 {datos.tendencias_contenido.map((item, i) => (
                   <li key={i}>
-                    <article className="h-full rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-[#4A8BFF]/40 hover:bg-white/[0.05]">
+                    <article
+                      onClick={() => setAbierta({ tipo: "redes", item, indice: i })}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setAbierta({ tipo: "redes", item, indice: i }); } }}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Ampliar: ${item.formato}`}
+                      className="h-full cursor-pointer rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-[#4A8BFF]/40 hover:bg-white/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]"
+                    >
                       <div className="flex items-start justify-between gap-3 mb-2">
                         <div className="text-3xl font-extrabold text-white/10 tabular-nums">{pad2(i + 1)}</div>
                         {item.plataforma && (
@@ -139,7 +167,7 @@ export default function SeccionTendencias() {
                         )}
                       </div>
                       <h4 className="text-white font-bold text-sm mb-2 leading-snug">{item.formato}</h4>
-                      <p className="text-white/50 text-xs leading-relaxed">{item.descripcion}</p>
+                      <p className="text-white/50 text-xs leading-relaxed line-clamp-3">{item.descripcion}</p>
                     </article>
                   </li>
                 ))}
@@ -177,6 +205,62 @@ export default function SeccionTendencias() {
         </div>
 
       </div>
+
+      {/* Modal de lectura ampliada (con scroll si el texto es largo) */}
+      {abierta && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={abierta.item.tendencia || abierta.item.formato}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+          onClick={() => setAbierta(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setAbierta(null)}
+            aria-label="Cerrar"
+            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white text-xl flex items-center justify-center z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            ✕
+          </button>
+          <div className="w-full max-w-lg" onClick={(e) => e.stopPropagation()}>
+            <article
+              className="bg-gradient-to-br from-[#1A3A8A]/20 to-[#4A8BFF]/20 backdrop-blur-xl border-2 border-[#4A8BFF]/40 rounded-3xl overflow-hidden shadow-2xl max-h-[80vh] overflow-y-auto"
+              style={{ scrollbarWidth: "thin", scrollbarColor: "#4A8BFF transparent" }}
+            >
+              <div className="p-6 sm:p-8">
+                <div className="flex items-center justify-between gap-3 mb-4">
+                  <span className="text-5xl font-extrabold text-white/10 tabular-nums">{pad2(abierta.indice + 1)}</span>
+                  {abierta.item.plataforma && (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full border border-[#4A8BFF]/30 bg-[#1A3A8A]/20 text-[#4A8BFF] text-[11px] font-semibold tracking-wide">
+                      {abierta.item.plataforma}
+                    </span>
+                  )}
+                </div>
+                <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight mb-4">
+                  {abierta.item.tendencia || abierta.item.formato}
+                </h3>
+                <p className="text-white/70 text-sm sm:text-base leading-relaxed whitespace-pre-line">
+                  {abierta.item.descripcion}
+                </p>
+                {abierta.item.fuente && (
+                  <p className="mt-5 text-xs text-white/40 flex items-center gap-1.5">
+                    <span className="w-1 h-1 rounded-full bg-[#4A8BFF]" aria-hidden="true" />
+                    Fuente: {abierta.item.fuente}
+                  </p>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setAbierta(null)}
+                  className="mt-6 w-full bg-white/5 hover:bg-white/10 border border-white/10 px-5 py-3 rounded-xl font-bold text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
