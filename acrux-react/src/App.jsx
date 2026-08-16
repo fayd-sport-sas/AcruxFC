@@ -18,6 +18,7 @@
 
 import { useState, useEffect, useId, useRef, useCallback, useMemo } from 'react';
 import SeccionTendencias from './components/SeccionTendencias';
+import SeccionContenido from './components/SeccionContenido';
 
 // ════════════════════════════════════════════
 // CONFIGURACIÓN
@@ -1579,6 +1580,7 @@ function App() {
         <Hero spots={spots} total={CONFIG.enrollment.totalSpots} />
         <NextMatchCountdown />
         <SeccionTendencias />
+        <SeccionContenido />
         <PlayerStats />
         <InfoSection />
         <PositionQuiz />
