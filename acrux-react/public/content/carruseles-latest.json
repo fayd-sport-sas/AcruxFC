@@ -1,5 +1,17 @@
 [
   {
+    "titulo": "CONTENIDO DEL DÍA MARTES 🔥 Desliza 👉",
+    "fecha": "2026-09-02T23:17:09.127186+00:00",
+    "carpeta": "carrusel_20260902_181612",
+    "slides": [
+      "https://raw.githubusercontent.com/fayd-sport-sas/AcruxFC/main/acrux-react/public/carruseles/carrusel_20260902_181612/01_portada.png",
+      "https://raw.githubusercontent.com/fayd-sport-sas/AcruxFC/main/acrux-react/public/carruseles/carrusel_20260902_181612/02_trabajo_en_equipo.png",
+      "https://raw.githubusercontent.com/fayd-sport-sas/AcruxFC/main/acrux-react/public/carruseles/carrusel_20260902_181612/03_tecnica_y_sacrific.png",
+      "https://raw.githubusercontent.com/fayd-sport-sas/AcruxFC/main/acrux-react/public/carruseles/carrusel_20260902_181612/04_formamos_futuro.png",
+      "https://raw.githubusercontent.com/fayd-sport-sas/AcruxFC/main/acrux-react/public/carruseles/carrusel_20260902_181612/05_cta_final.png"
+    ]
+  },
+  {
     "titulo": "FRASES QUE ENCIENDEN 🔥⚽",
     "fecha": "2026-08-29T15:48:54.955935+00:00",
     "carpeta": "carrusel_20260829_101148",
