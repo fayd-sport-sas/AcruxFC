@@ -1,108 +1,106 @@
 {
   "tendencias_producto": [
     {
-      "tendencia": "Edits con transiciones CapCut",
-      "descripcion": "Videos de 15-60 segundos con transiciones sincronizadas al ritmo de la música, empezando con un clip extendido y luego cortando rápido entre momentos clave del jugador o equipo.",
+      "tendencia": "Edits con música phonk/energética",
+      "descripcion": "Mini películas de 15-60 segundos con cortes rápidos sincronizados al beat. Empiezan con un clip extendido y luego aceleran el ritmo con múltiples momentos del jugador.",
       "fuente": "Ambas"
     },
     {
-      "tendencia": "Drills con overlay táctico",
-      "descripcion": "Ejercicios de entrenamiento mostrados con textos en pantalla explicando la técnica, números de repeticiones o puntos de coaching en tiempo real.",
-      "fuente": "Instagram"
-    },
-    {
-      "tendencia": "Antes/Después de progreso",
-      "descripcion": "Comparaciones de habilidades de jugadores mostrando evolución técnica, ideal para academias formativas que buscan demostrar resultados.",
-      "fuente": "Ambas"
-    },
-    {
-      "tendencia": "Retos y juegos competitivos",
-      "descripcion": "Dinámicas como 'Protect the King' o carreras de reacción que combinan diversión con entrenamiento, captando atención por la energía del momento.",
+      "tendencia": "Drills competitivos/retos",
+      "descripcion": "Videos de drills específicos tipo 'primer jugador en tocar el cono gana' o ejercicios de agilidad con overlay de texto explicativo. Genera engagement por el elemento competitivo.",
       "fuente": "TikTok"
     },
     {
-      "tendencia": "Highlight reels cortos (mini-películas)",
-      "descripcion": "Compilaciones de 30-45 segundos con música trending, mostrando los mejores momentos de un jugador o partido con cámara lenta en goles y jugadas clave.",
+      "tendencia": "Contenido AI con efectos de estadio",
+      "descripcion": "Uso de templates de CapCut con IA que generan escenas de estadio, efectos de multitud y transiciones cinemáticas desde una foto simple del jugador.",
+      "fuente": "Ambas"
+    },
+    {
+      "tendencia": "Breakdown táctico con narración",
+      "descripcion": "Videos de 45 segundos mostrando secuencias de juego con overlays tácticos y narración inteligente. Mezcla educación con entretenimiento.",
+      "fuente": "Instagram"
+    },
+    {
+      "tendencia": "Momentos antes/después",
+      "descripcion": "Transformación de habilidades o progreso físico mostrado en formato split-screen o secuencial con música dramática.",
       "fuente": "Ambas"
     }
   ],
   "tendencias_contenido": [
     {
-      "formato": "Llamada directa al público objetivo en los primeros 3 segundos",
-      "descripcion": "Identificar inmediatamente a quién va dirigido ('Jugadores Sub-17', 'Padres de futbolistas') detiene el scroll porque la audiencia reconoce que el contenido es para ellos.",
+      "formato": "Callout directo al público objetivo",
+      "descripcion": "Nombrar específicamente a quién va dirigido (ej: 'jugadores Sub-17', 'futbolistas de Soacha') detiene el scroll porque confirma identidad.",
       "plataforma": "Instagram/TikTok"
     },
     {
-      "formato": "Acción explosiva desde el primer frame",
-      "descripcion": "Un golazo, una jugada técnica impresionante o un regate en el primer segundo captura atención inmediata sin necesidad de introducción.",
+      "formato": "Acción impactante inmediata",
+      "descripcion": "Empezar con el momento más explosivo (gol, regate, tackle) sin buildup lento capta atención en feed saturado.",
       "plataforma": "Instagram/TikTok"
     },
     {
-      "formato": "Texto en pantalla con pregunta provocadora",
-      "descripcion": "Preguntas como '¿Quieres jugar en Primera División?' o '¿Sabías que este ejercicio mejora tu velocidad 30%?' generan curiosidad y obligan a seguir viendo.",
+      "formato": "Pregunta o desafío visual",
+      "descripcion": "Texto overlay tipo '¿Puedes hacer esto?' o 'Técnica que todo Sub-17 debe dominar' genera curiosidad instantánea.",
       "plataforma": "Instagram/TikTok"
     },
     {
-      "formato": "Momento de alta emoción o reacción",
-      "descripcion": "Celebraciones explosivas, gritos del entrenador o reacciones genuinas de jugadores conectan emocionalmente y generan empatía instantánea.",
+      "formato": "Primer plano del balón en movimiento",
+      "descripcion": "El cerebro responde automáticamente a objetos en movimiento rápido, especialmente en deportes.",
       "plataforma": "Instagram/TikTok"
     },
     {
-      "formato": "Promesa de transformación visible",
-      "descripcion": "Mostrar un split-screen de antes/después en el primer frame promete valor inmediato y demuestra resultados tangibles del entrenamiento.",
+      "formato": "Texto animado con estadística sorprendente",
+      "descripcion": "Datos tipo '3 segundos después del robo' o 'El 90% falla esto' generan intriga cognitiva que obliga a seguir viendo.",
       "plataforma": "Instagram/TikTok"
     },
     {
-      "formato": "Música: Brazilian funk (alta energía, loops cortos)",
-      "descripcion": "Edits de highlights y jugadas rápidas; domina porque tiene transientes agudos que sincronizan perfectamente con cortes cada 0.5-1 segundo.",
+      "formato": "Música: Phonk/Bass pesado",
+      "descripcion": "Para edits de highlights con cortes rápidos y transiciones agresivas. Domina en football edits 2026.",
       "plataforma": "Reels"
     },
     {
-      "formato": "Música: Dembow (ritmo repetitivo y contundente)",
-      "descripcion": "Montajes de skills y drills técnicos; hooks que caen en menos de 8 segundos hacen que sean ideales para contenido formativo dinámico.",
+      "formato": "Música: Trap energético",
+      "descripcion": "Ideal para secuencias de drills y entrenamientos de alta intensidad con speed ramps.",
       "plataforma": "Reels"
     },
     {
-      "formato": "Música: UK drill y rap lento",
-      "descripcion": "Edits defensivos, jugadas tácticas o momentos de concentración; el tempo más frío funciona para contenido serio y técnico.",
+      "formato": "Música: Sonidos trending de TikTok",
+      "descripcion": "Audio viral del momento para aumentar descubribilidad algorítmica. Cambiar cada 1-2 semanas según trends.",
       "plataforma": "Reels"
     },
     {
-      "formato": "Música: Anthems deportivos con build-up épico",
-      "descripcion": "Videos motivacionales de equipo, previos a partidos o presentaciones de academia; generan hype y emoción colectiva.",
+      "formato": "Música: Música épica/cinematográfica",
+      "descripcion": "Para momentos de transformación o logros del equipo. Uso en climax del reel.",
       "plataforma": "Reels"
     },
     {
-      "formato": "Música: Audio trending específico de fútbol (canciones virales actuales)",
-      "descripcion": "Cualquier momento del reel; usar el audio del momento aumenta la discoverability porque el algoritmo favorece sonidos populares.",
+      "formato": "Música: Beats minimalistas con drops",
+      "descripcion": "Sincronizar el drop con la acción clave (gol, celebración). Construye tensión antes del momento.",
       "plataforma": "Reels"
     }
   ],
   "sugerencias_campana": [
-    "Captura múltiples ángulos del mismo drill o jugada (mínimo 2-3 tomas) para tener material suficiente para cortes dinámicos.",
-    "Identifica el audio trending de la semana en la sección 'Reels Trends' de Instagram o busca hashtags como #footballedit en TikTok para ver qué música usan edits virales.",
-    "Edita en CapCut, VN o InShot: importa clips y coloca la música primero, luego alinea los cortes con los golpes del beat.",
-    "Aplica 2-4 cortes por segundo en momentos de alta energía (goles, regates, sprints), sincronizados exactamente con la percusión de la música.",
-    "Usa speed ramps (ralentización) solo en momentos climáticos: el contacto con el balón en un golazo o una finta decisiva.",
-    "Agrega textos en pantalla en los primeros 3 segundos con llamado directo ('¿Quieres entrenar así?') y en el segundo 7-10 con dato clave o CTA.",
-    "Mantén duración total entre 15-45 segundos; los reels más cortos tienen mejor retención.",
-    "Incluye subtítulos/captions automáticos si hay voz en off o entrevista, porque el 70% de usuarios ve sin sonido.",
-    "Exporta en resolución 1080x1920 (vertical 9:16) con máxima calidad para evitar compresión del algoritmo.",
-    "Publica con 5-8 hashtags estratégicos: mezcla nichados (#FutbolFormativoColombia, #AcruxFC) con masivos (#Reels, #Futbol), siempre en el primer comentario.",
-    "Analiza métricas después de 48 horas: si el reel cae bajo 30% de retención promedio en los primeros 3 segundos, ajusta el gancho en el siguiente post."
+    "Seleccionar los 3-5 clips más impactantes (máx 45 segundos total). Eliminar todo lo repetitivo o aburrido.",
+    "Empezar con el segundo mejor clip (1-3 segundos) como gancho, NO con el mejor. Guardar el mejor para segundo 20-30.",
+    "Mantener ritmo de 2-4 cortes por segundo en secciones de alta energía. Usar jump cuts para crear urgencia.",
+    "Sincronizar cada corte con el beat de la música. El momento del gol/jugada debe caer exactamente en el drop.",
+    "Añadir speed ramps (120-300% velocidad) en transiciones entre clips para dinamismo sin perder continuidad.",
+    "Overlay de texto animado en primeros 2 segundos explicando el contexto (ej: 'Técnica Sub-17 Acrux FC').",
+    "Aplicar slow motion (40-60% velocidad) solo en EL momento clave para énfasis emocional, no más de 2-3 segundos.",
+    "Incluir CTA sutil en últimos 3 segundos (texto tipo 'Únete a Acrux FC' o emoji de ubicación de Sibaté).",
+    "Mantener aspect ratio 9:16 vertical. Asegurar que acción principal nunca quede cortada en bordes.",
+    "Exportar en 1080x1920 mínimo, 30fps. Añadir subtítulos auto-generados si hay voz, mejora retención 30%."
   ],
   "ideas_contenido": [
-    "Drill de 3 segundos: 'Los primeros 3 segundos después de recuperar el balón son los más importantes'. Mostrar ejercicio de presión post-pérdida con cronómetro en pantalla. Gancho: 'Esto separa a los profesionales de los amateurs'.",
-    "Serie 'Jugador del Mes': Reel de 30 segundos con highlights del mejor jugador Sub-17 de Acrux ese mes, música de Brazilian funk, texto inicial '¿Quieres ser el próximo?' + CTA final 'Únete a Acrux FC'.",
-    "Antes/Después técnico: Comparación split-screen de un jugador ejecutando un regate (hook turn o elastico) al inicio de la temporada vs. ahora. Texto: 'Así mejoramos tu técnica en Acrux'.",
-    "Reto viral entre jugadores: 'Protect the King' o carrera de reacción entre 4 jugadores Sub-17, capturado con celular estilo POV, risas y competencia natural. Gancho: 'Entrenamiento que parece juego'.",
-    "Tutorial express de skill: 15 segundos enseñando una finta específica (ej: inside hook) con 3 pasos numerados en texto overlay, demostrado por jugador de Acrux en cámara lenta. Música dembow. CTA: 'Aprende esto en nuestras sesiones'.",
-    "Día en la vida Sub-17: Clips rápidos (2-3 segundos cada uno) mostrando llegada a entrenamiento, calentamiento, drill técnico, partido interno, celebración. Texto inicial: '24 horas en la cantera de Acrux'.",
-    "Golazo con múltiples ángulos: Un gol espectacular del equipo editado con 3 ángulos diferentes (detrás de la portería, lateral, celebración), cámara lenta en el impacto, música épica. Gancho: imagen congelada del momento del tiro.",
-    "Testimonio de padre + jugador: Clip de 40 segundos alternando entre entrevista breve de padre hablando del progreso de su hijo y clips del jugador en acción. Subtítulos automáticos. Gancho: 'Lo que dicen las familias de Acrux'.",
-    "Desafío de precisión: Jugadores intentando darle a un objetivo pequeño (ej: poste, cono específico) desde 20 metros, mostrar intentos fallidos rápidos y luego el éxito con celebración. Música trending, texto: 'Intento #8, finalmente'.",
-    "Convocatoria abierta urgente: Video dinámico mostrando instalaciones de Acrux, jugadores entrenando, texto overlay: 'ABRIMOS 5 CUPOS SUB-17 SEPTIEMBRE' + datos de contacto. Gancho: '¿Tienes lo necesario?' con close-up de balón y botas.",
-    "Comparativa táctica: Mostrar mismo ejercicio táctico ejecutado mal (equis roja) vs. ejecutado correctamente (check verde), música UK drill. Texto educativo: 'Aprende a leer el juego en Acrux'."
+    "Drill de 'Ring of Fire': jugadores Sub-17 en círculo, uno en medio intentando recuperar. Mostrar 3 intentos rápidos con música phonk. Texto: 'Presión real en Acrux FC Sibaté'.",
+    "Antes/Después: Split screen de jugador hace 3 meses vs ahora ejecutando mismo regate. Música épica con build-up. CTA: 'Tu evolución empieza aquí'.",
+    "Secuencia de primeros toques: 8-10 jugadores diferentes ejecutando control de balón perfecto en sucesión rápida (0.5 seg cada uno). Beat sync estricto. Texto: 'Primera escuela formativa de Sibaté'.",
+    "Challenge viral: 'Primer jugador en tocar el cono central gana'. Grabar 3 duelos consecutivos desde ángulo cenital. Overlay con nombre del ganador. Usar audio trending.",
+    "Breakdown táctico simple: Jugada de gol del último partido en slow-mo con flechas animadas mostrando movimientos. Voz over explicando en 15 seg. Texto: 'Así entrenamos en Acrux'.",
+    "Transformación de cancha: Timelapse de entrenamiento completo (llegada-calentamiento-drill-partido) en 30 seg. Música de alta energía. Cerrar con logo Acrux y ubicación.",
+    "'Los primeros 3 segundos': Drill específico de reacción post-pérdida. Mostrar teoría (texto) + ejecución real del equipo. Vincular con concepto trending de decisiones rápidas.",
+    "Momento de celebración grupal post-gol con cámara lenta y música emocional. Capturar reacciones genuinas. Texto: 'Más que fútbol, familia. Acrux FC'.",
+    "Reto de habilidades: Jugador intenta 'inside hook' 5 veces. Mostrar intentos fallidos rápido y éxito en slow-mo. Audio cómico/dramático. Engagement alto por identificación.",
+    "Video de reclutamiento: Mini-documental de 60 seg siguiendo un día de un jugador Sub-17. Desde casa hasta entrenamiento. Música inspiracional. CTA fuerte al final: 'Escríbenos para pruebas'."
   ],
-  "fecha_publicacion": "2026-08-31T11:27:31.606050+00:00"
+  "fecha_publicacion": "2026-09-03T14:28:44.826346+00:00"
 }
