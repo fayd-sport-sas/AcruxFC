@@ -274,13 +274,27 @@ const buildWaLink = (phone, msg = '') => {
   const clean = phone.replace(/\D/g, '');
   return `https://wa.me/${clean}${msg ? `?text=${encodeURIComponent(msg)}` : ''}`;
 };
-const buildWaLinkWithData = (phone, data) => {
+const buildWaLinkWithData = (phone, data, conv) => {
+  const cat = conv?.categorias?.find((c) => c.id === data.category);
   const msg = `Hola Acrux, soy *${data.parentName || '—'}*.\n\n` +
-    `Mi hijo *${data.playerName || '—'}* (${data.playerAge || '—'} años) quiere la prueba gratis.\n` +
+    `Quiero inscribir a *${data.playerName || '—'}* (${data.playerAge || '—'} años) en la ${cat ? cat.label : 'convocatoria'} de Acrux FC.\n` +
     `Mi WhatsApp: ${data.phone || '—'}.\n\n` +
     `¿Me confirman horarios disponibles?`;
   return buildWaLink(phone, msg);
 };
+
+// Convocatoria 2010/2012 — configuración viva en /content/convocatoria.json
+// (deadline, categorías y apiUrl se editan en el JSON, sin tocar código)
+function useConvocatoria() {
+  const [conv, setConv] = useState(null);
+  useEffect(() => {
+    fetch('/content/convocatoria.json')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (d) setConv(d); })
+      .catch(() => {});
+  }, []);
+  return conv;
+}
 
 // ════════════════════════════════════════════
 // HOOKS
@@ -533,15 +547,30 @@ function Navbar({ spots }) {
 
 function StickyCTA({ spots }) {
   const passed = useScrollY(400);
+  const conv = useConvocatoria();
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    if (!conv?.deadline) return;
+    const t = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(t);
+  }, [conv?.deadline]);
+  const faltaMs = conv?.deadline ? new Date(conv.deadline) - now : null;
+  const dias = faltaMs != null ? Math.max(0, Math.floor(faltaMs / 86400000)) : null;
+  const horas = faltaMs != null ? Math.max(0, Math.floor((faltaMs % 86400000) / 3600000)) : null;
+  const activa = dias != null && faltaMs > 0;
   return (
     <aside aria-label="Llamado a la acción fijo" className={cls('fixed bottom-0 inset-x-0 z-40 bg-black/95 backdrop-blur-xl border-t-2 border-[#4A8BFF]/30 p-3 sm:p-4 transition-transform duration-500 motion-reduce:transition-none', passed ? 'translate-y-0' : 'translate-y-full')}>
       <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-3 text-sm sm:text-base text-center sm:text-left">
           <span className="relative flex h-3 w-3 shrink-0">
             <span className="absolute inline-flex h-full w-full rounded-full bg-[#4A8BFF] opacity-75 animate-ping motion-reduce:animate-none" />
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-[#4A8BFF]" />
+            <span className="relative inline-flex h-full w-full rounded-full bg-[#4A8BFF]" />
           </span>
-          <span><strong className="text-[#4A8BFF] text-lg sm:text-xl font-black">{formatNumber(spots)}</strong> cupos esta semana · <span className="text-white/60">prueba gratis</span></span>
+          {activa ? (
+            <span><strong className="text-[#4A8BFF] text-lg sm:text-xl font-black">Convocatoria 2010 / 2012 abierta</strong> · <span className="text-white/60">cierra en </span><span className="tabular-nums font-bold text-white">{dias}d {horas}h</span></span>
+          ) : (
+            <span><strong className="text-[#4A8BFF] text-lg sm:text-xl font-black">{formatNumber(spots)}</strong> cupos esta semana · <span className="text-white/60">prueba gratis</span></span>
+          )}
         </div>
         <Button href="#contacto" size="md" variant="whatsapp" className="w-full sm:w-auto"><span aria-hidden="true">🚀</span>¡ASEGURAR CUPO!</Button>
       </div>
@@ -1418,14 +1447,25 @@ function ContactForm({ spots }) {
   const [status, setStatus] = useState('idle');
   const [errors, setErrors] = useState({});
   const formId = useId();
+  const conv = useConvocatoria();
+  const categorias = conv?.categorias || [];
   const validate = (d) => {
     const e = {};
     if (!d.parentName?.trim()) e.parentName = 'Necesitamos tu nombre para contactarte';
     if (!d.phone?.trim()) e.phone = 'Tu WhatsApp es para enviarte los horarios';
     else if (!/^[+\d\s()-]{7,}$/.test(d.phone.trim())) e.phone = 'Revisá el número, parece incompleto';
+    if (!d.category) e.category = 'Elegí la categoría del jugador';
     if (d.playerAge) {
       const a = parseInt(d.playerAge, 10);
       if (Number.isNaN(a) || a < CONFIG.enrollment.minAge || a > CONFIG.enrollment.maxAge) e.playerAge = `Trabajamos con jugadores de ${CONFIG.enrollment.minAge} a ${CONFIG.enrollment.maxAge} años`;
+    }
+    if (d.category && d.fechaNacimiento && categorias.length) {
+      const cat = categorias.find((c) => c.id === d.category);
+      const anio = parseInt(String(d.fechaNacimiento).slice(0, 4), 10);
+      if (cat && !Number.isNaN(anio)) {
+        const esperado = parseInt(cat.id, 10);
+        if (anio !== esperado) e.fechaNacimiento = `${cat.label} es para nacidos en ${esperado}`;
+      }
     }
     return e;
   };
@@ -1437,8 +1477,26 @@ function ContactForm({ spots }) {
     setErrors(errs);
     if (Object.keys(errs).length) return;
     setStatus('sending');
+    if (conv?.apiUrl) {
+      try {
+        await fetch(`${conv.apiUrl}/convocatoria/registrar`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nombre: data.parentName, telefono: data.phone,
+            nombre_jugador: data.playerName,
+            edad: parseInt(data.playerAge, 10) || 0,
+            categoria: data.category,
+            fecha_nacimiento: data.fechaNacimiento || null,
+            posicion: data.position || null, fuente: 'web',
+          }),
+        });
+      } catch (err) {
+        console.warn('Registro backend falló (continuamos con WhatsApp):', err);
+      }
+    }
     await new Promise((r) => setTimeout(r, 400));
-    const waUrl = buildWaLinkWithData(CONFIG.whatsapp.number, data);
+    const waUrl = buildWaLinkWithData(CONFIG.whatsapp.number, data, conv);
     window.open(waUrl, '_blank', 'noopener,noreferrer');
     setStatus('success');
     e.currentTarget.reset();
@@ -1483,6 +1541,21 @@ function ContactForm({ spots }) {
               <label htmlFor={`${formId}-age`} className="text-xs sm:text-sm font-bold text-white/70 block mb-2 tracking-wider">🎂 Edad</label>
               <input id={`${formId}-age`} type="number" name="playerAge" min={CONFIG.enrollment.minAge} max={CONFIG.enrollment.maxAge} placeholder="14" aria-invalid={!!errors.playerAge} className={cls(inputBase, errors.playerAge ? inputErr : inputOk)} />
               {errors.playerAge && <p role="alert" className="mt-1.5 text-xs text-red-400">{errors.playerAge}</p>}
+            </div>
+            <div>
+              <label htmlFor={`${formId}-cat`} className="text-xs sm:text-sm font-bold text-white/70 block mb-2 tracking-wider">🎯 Categoría <span className="text-[#4A8BFF]" aria-hidden="true">*</span></label>
+              <select id={`${formId}-cat`} name="category" aria-invalid={!!errors.category} className={cls(inputBase, errors.category ? inputErr : inputOk, 'appearance-none')}>
+                <option value="" disabled>Seleccioná la categoría</option>
+                {categorias.map((c) => (
+                  <option key={c.id} value={c.id} className="bg-[#0B1B33] text-white">{c.label} · {c.edades}</option>
+                ))}
+              </select>
+              {errors.category && <p role="alert" className="mt-1.5 text-xs text-red-400">{errors.category}</p>}
+            </div>
+            <div>
+              <label htmlFor={`${formId}-nac`} className="text-xs sm:text-sm font-bold text-white/70 block mb-2 tracking-wider">📅 Fecha de nacimiento</label>
+              <input id={`${formId}-nac`} type="date" name="fechaNacimiento" aria-invalid={!!errors.fechaNacimiento} className={cls(inputBase, errors.fechaNacimiento ? inputErr : inputOk, '[color-scheme:dark]')} />
+              {errors.fechaNacimiento && <p role="alert" className="mt-1.5 text-xs text-red-400">{errors.fechaNacimiento}</p>}
             </div>
           </div>
           <Button type="submit" size="lg" fullWidth variant="whatsapp">
