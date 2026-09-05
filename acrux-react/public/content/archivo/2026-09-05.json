@@ -1,0 +1,104 @@
+{
+  "tendencias_producto": [
+    {
+      "tendencia": "Transiciones con jugador destacado",
+      "descripcion": "Edits con transiciones rápidas tipo 'Lamine Yamal' o 'Mbappe' usando CapCut, mostrando evolución del jugador o momentos clave sincronizados con el beat de la música.",
+      "fuente": "Ambas"
+    },
+    {
+      "tendencia": "Drill con overlay táctico",
+      "descripcion": "Videos cortos (7-15 segundos) de entrenamientos con textos overlay y zoom effects en movimientos clave, mostrando técnica sin introducción.",
+      "fuente": "TikTok"
+    },
+    {
+      "tendencia": "Reverse edit / Speed ramps",
+      "descripcion": "Clips en reversa combinados con speed ramps en momentos de habilidad o celebración, usando efectos como 'Montagem Guerreiro' o 'Baixo Teclas 2 Slowed'.",
+      "fuente": "Ambas"
+    },
+    {
+      "tendencia": "Antes/Después motivacional",
+      "descripcion": "Contenido aspiracional mostrando progreso de jugadores o equipos, con ganchos tipo 'Recuerda en enero cuando dijiste que este sería tu año'.",
+      "fuente": "Instagram"
+    },
+    {
+      "tendencia": "Highlight reel narrativo",
+      "descripcion": "Compilación de mejores momentos (fails, goles, skills) con storytelling emocional, no solo mostrar jugadas sino vender el momento.",
+      "fuente": "Ambas"
+    }
+  ],
+  "tendencias_contenido": [
+    {
+      "formato": "Arrancar con acción inmediata (sin intro)",
+      "descripcion": "TikTok premia la inmediatez en el primer segundo, los hooks más virales interrumpen al espectador a mitad de pensamiento con movimiento instantáneo.",
+      "plataforma": "Instagram/TikTok"
+    },
+    {
+      "formato": "Texto overlay en negrita desde frame 1",
+      "descripcion": "Muchos usuarios ven sin sonido, el texto bold capta atención visual inmediata y señala al algoritmo que el video es dinámico.",
+      "plataforma": "Instagram/TikTok"
+    },
+    {
+      "formato": "Gancho aspiracional/dolor ('Este año lo lograrás')",
+      "descripcion": "Conecta emocionalmente con donde el jugador quiere estar, posiciona a la academia como el vehículo de transformación.",
+      "plataforma": "Instagram/TikTok"
+    },
+    {
+      "formato": "Jump cut o movimiento brusco en segundo 1",
+      "descripcion": "Rompe el patrón del scroll, crea curiosidad visual que obliga a quedarse para ver qué sigue.",
+      "plataforma": "Instagram/TikTok"
+    },
+    {
+      "formato": "Overlay de clip de élite específico",
+      "descripcion": "Usar clips de alta calidad de temas específicos (ej. Mbappe gym, Rice freekick) hace el contenido más relevante y profesional.",
+      "plataforma": "Instagram/TikTok"
+    },
+    {
+      "formato": "Música: Phonk/Slowed remixes",
+      "descripcion": "Edits de transición y highlights con energía oscura/agresiva (ej. Baixo Teclas 2 Slowed, Montagem Guerreiro)",
+      "plataforma": "Reels"
+    },
+    {
+      "formato": "Música: Anthems motivacionales tipo FIFA",
+      "descripcion": "Contenido aspiracional de equipo, momentos de campeonato, videos de progreso grupal (World Cup vibes)",
+      "plataforma": "Reels"
+    },
+    {
+      "formato": "Música: Hip hop/Trap de alta energía",
+      "descripcion": "Drills rápidos, skills compilations, momentos de celebración con cortes dinámicos",
+      "plataforma": "Reels"
+    },
+    {
+      "formato": "Música: Trending TikTok audios del momento",
+      "descripcion": "Aprovechar audios virales del nicho fútbol para montar sobre la ola de tendencia existente",
+      "plataforma": "Reels"
+    },
+    {
+      "formato": "Música: Sound effects de fútbol auténticos",
+      "descripcion": "Mezclar con música para momentos de gol, tiro, celebración que añaden realismo e impacto",
+      "plataforma": "Reels"
+    }
+  ],
+  "sugerencias_campana": [
+    "Hook visual en frame 1: empieza con movimiento brusco o jump cut sin intro estática",
+    "Mantener 7-15 segundos de duración total para maximizar engagement y retención",
+    "Cortar en el beat: sincronizar cada transición con el golpe musical (3-5 cortes por segundo en momentos pico)",
+    "Añadir texto overlay en negrita desde segundo 1, específico al momento ('Este drill cambia todo')",
+    "Usar speed ramps (slow motion) solo en movimientos técnicos clave, no en todo el video",
+    "Aplicar transiciones tipo reversa o 'Lamine Yamal' usando plantillas de CapCut para seguir tendencias",
+    "Overlay de clips de élite relevantes (ejemplo: si hablas de definición, usa clip de Haaland goal)",
+    "Zoom effects dinámicos en momentos de habilidad para enfocar atención",
+    "Incluir texto CTA al final ('Únete a Acrux FC', 'DM para tryouts') pero breve, 1-2 segundos máximo",
+    "Exportar vertical 9:16, añadir watermark discreto de la academia"
+  ],
+  "ideas_contenido": [
+    "Drill de regate 1v1 filmado desde ángulo bajo, cortes rápidos en cada toque, música phonk, texto: '3 toques para dejar rivales atrás' - mostrar jugador Sub-17 ejecutando",
+    "Antes/Después: foto jugador primer día vs momento actual celebrando gol, transición con speed ramp, texto overlay: '6 meses en Acrux FC', música motivacional",
+    "Serie de tiros a portería con diferentes técnicas, cada uno sincronizado con beat, texto identificando la técnica ('Empeine', 'Chanfle', 'Vaselina'), slow motion en contacto con balón",
+    "Reverse edit: jugador corriendo hacia atrás desde celebración hasta inicio del drill, música slowed, texto: 'Así se construye un goleador en Acrux'",
+    "Challenge entre compañeros: '¿Quién domina más veces sin que caiga?' con contador en pantalla, edición rápida intercalando intentos, música energética",
+    "POV desde perspectiva del jugador ejecutando jugada táctica, overlay con flechas/líneas tácticas mostrando movimientos, texto: 'Así vemos el campo en Acrux FC'",
+    "Highlight reel de la semana: mejores 5 jugadas del entrenamiento con jump cuts agresivos, phonk background, texto presentando cada jugador por nombre",
+    "Tutorial express: 'Aprende esta finta en 10 segundos' con jugador Sub-17 demostrando paso a paso en cámara lenta, texto overlay con instrucciones breves"
+  ],
+  "fecha_publicacion": "2026-09-05T13:14:34.522821+00:00"
+}
