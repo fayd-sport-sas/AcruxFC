@@ -1,10 +1,17 @@
 {
-  "_comentario": "PROVISIONAL: deadline tentativo. Editar este JSON para cambiar fecha, categorías o apiUrl — sin tocar código ni redesplegar. apiUrl se llena cuando la API tenga URL pública (túnel/dominio).",
+  "_comentario": "Config viva de la convocatoria. Las inscripciones web se guardan vía /api/convocatoria (serverless Vercel → GitHub) y el sistema de la casa las sincroniza cada 30 min. Editar deadline aquí cuando se defina la fecha real.",
   "inscripcion_abierta": true,
   "deadline": "2026-10-03T23:59:59",
-  "apiUrl": "",
   "categorias": [
-    { "id": "2010", "label": "Categoría 2010", "edades": "15-16 años" },
-    { "id": "2012", "label": "Categoría 2012", "edades": "13-14 años" }
+    {
+      "id": "2010",
+      "label": "Categoría 2010",
+      "edades": "15-16 años"
+    },
+    {
+      "id": "2012",
+      "label": "Categoría 2012",
+      "edades": "13-14 años"
+    }
   ]
 }

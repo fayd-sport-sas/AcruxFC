@@ -1473,13 +1473,14 @@ function ContactForm({ spots }) {
     e.preventDefault();
     if (status === 'sending') return;
     const data = Object.fromEntries(new FormData(e.currentTarget).entries());
+    if (data.website) { setStatus('success'); setTimeout(() => setStatus('idle'), 6000); return; } // honeypot anti-bots
     const errs = validate(data);
     setErrors(errs);
     if (Object.keys(errs).length) return;
     setStatus('sending');
-    if (conv?.apiUrl) {
+    {
       try {
-        await fetch(`${conv.apiUrl}/convocatoria/registrar`, {
+        await fetch('/api/convocatoria', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1558,6 +1559,7 @@ function ContactForm({ spots }) {
               {errors.fechaNacimiento && <p role="alert" className="mt-1.5 text-xs text-red-400">{errors.fechaNacimiento}</p>}
             </div>
           </div>
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
           <Button type="submit" size="lg" fullWidth variant="whatsapp">
             {status === 'sending' && (<><svg className="animate-spin motion-reduce:animate-none w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.25" strokeWidth="4" /><path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" /></svg>Abriendo WhatsApp…</>)}
             {status === 'success' && (<><span className="text-2xl motion-safe:animate-bounce" aria-hidden="true">✅</span>¡TE ABRIÓ WHATSAPP!</>)}
