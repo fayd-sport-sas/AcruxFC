@@ -80,14 +80,18 @@ const CONFIG = {
 
 const NAV_LINKS = [
   { href: '#top', label: 'Inicio' },
-  { href: '#tendencias', label: 'Tendencias' },
   { href: '#info', label: 'Info' },
+  { href: '#contacto', label: 'Contacto' },
+];
+// Menú secundario agrupado en el desplegable "Más" (desktop);
+// en móvil se muestran todos juntos en el drawer.
+const NAV_MORE = [
+  { href: '#tendencias', label: 'Tendencias' },
   { href: '#galeria', label: 'Galería' },
   { href: '#news', label: 'Noticias' },
   { href: '#videos', label: 'Videos' },
   { href: '#quiz', label: 'Quiz' },
   { href: '#vota', label: 'Votá' },
-  { href: '#contacto', label: 'Contacto' },
 ];
 
 // 🆕 GALLERY ahora con category para filtros
@@ -518,7 +522,23 @@ function Navbar({ spots }) {
             </div>
           </a>
           <ul className="hidden lg:flex items-center gap-2 xl:gap-4">
-            {NAV_LINKS.map((l) => (
+            {NAV_LINKS.slice(0, 2).map((l) => (
+              <li key={l.href}><a href={l.href} className="text-xs xl:text-sm font-medium text-white/70 hover:text-white transition-colors duration-200 lg:px-1.5 xl:px-2 py-1 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]">{l.label}</a></li>
+            ))}
+            <li className="relative group">
+              <button type="button" aria-haspopup="true" className="flex items-center gap-1 text-xs xl:text-sm font-medium text-white/70 hover:text-white transition-colors duration-200 lg:px-1.5 xl:px-2 py-1 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]">
+                Más
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" className="transition-transform duration-200 group-hover:rotate-180 motion-reduce:transition-none"><path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+              <ul className="absolute right-0 top-full pt-2 hidden group-hover:block group-focus-within:block z-50 list-none">
+                <li className="bg-[#0a1226]/95 backdrop-blur-xl border border-[#4A8BFF]/25 rounded-xl shadow-2xl shadow-[#1A3A8A]/40 py-2 min-w-[11rem]">
+                  {NAV_MORE.map((l) => (
+                    <a key={l.href} href={l.href} className="block px-4 py-2.5 text-sm text-white/75 hover:text-white hover:bg-[#4A8BFF]/10 transition-colors duration-150">{l.label}</a>
+                  ))}
+                </li>
+              </ul>
+            </li>
+            {NAV_LINKS.slice(2).map((l) => (
               <li key={l.href}><a href={l.href} className="text-xs xl:text-sm font-medium text-white/70 hover:text-white transition-colors duration-200 lg:px-1.5 xl:px-2 py-1 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]">{l.label}</a></li>
             ))}
           </ul>
@@ -542,7 +562,7 @@ function Navbar({ spots }) {
         </div>
         <div id="mobile-menu" className={cls('lg:hidden overflow-hidden transition-[max-height,opacity] duration-300', open ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0')}>
           <ul className="flex flex-col gap-1 px-4 pb-4">
-            {NAV_LINKS.map((l) => (
+            {[...NAV_LINKS.slice(0, 2), ...NAV_MORE, ...NAV_LINKS.slice(2)].map((l) => (
               <li key={l.href}><a href={l.href} onClick={() => setOpen(false)} className="block px-4 py-3 rounded-lg text-white/80 hover:text-white hover:bg-white/5 transition-colors">{l.label}</a></li>
             ))}
             <li className="pt-2"><Button href="#contacto" size="md" fullWidth onClick={() => setOpen(false)}><span aria-hidden="true">⚡</span>¡Probar gratis!</Button></li>
