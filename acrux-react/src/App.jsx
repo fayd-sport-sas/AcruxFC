@@ -86,9 +86,8 @@ const NAV_LINKS = [
 // Menú secundario agrupado en el desplegable "Más" (desktop);
 // en móvil se muestran todos juntos en el drawer.
 const NAV_MORE = [
-  { href: '#pasa', label: '📺 Lo que pasa' },
+  { href: '#news', label: '📺 Lo que pasa' },
   { href: '#galeria', label: 'Galería' },
-  { href: '#news', label: 'Noticias' },
   { href: '#videos', label: 'Videos' },
   { href: '#quiz', label: 'Quiz' },
   { href: '#vota', label: 'Votá' },
@@ -1564,92 +1563,6 @@ function FaqSection() {
 }
 
 // ════════════════════════════════════════════
-// 🆕 SECCIÓN: Lo que pasa en Acrux (pública) — noticias, partidos y campañas
-// ════════════════════════════════════════════
-function usePartidos() {
-  const [partidos, setPartidos] = useState(null);
-  useEffect(() => {
-    fetch('/content/partidos.json')
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error())))
-      .then(setPartidos)
-      .catch(() => setPartidos(null));
-  }, []);
-  return partidos;
-}
-
-function LoQuePasa() {
-  const conv = useConvocatoria();
-  const partidos = usePartidos();
-  const noticia = NEWS[0];
-  const proximo = partidos?.proximo || null;
-  const ultimo = partidos?.ultimo || null;
-  const campanaActiva = conv?.inscripcion_abierta;
-  const fmtFecha = (iso) => {
-    try { return new Date(iso).toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' }); }
-    catch { return ''; }
-  };
-  return (
-    <section id="pasa" className="relative py-20 sm:py-24 px-4 sm:px-8 border-t border-[#1A3A8A]/30" aria-labelledby="pasa-title">
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <header className="text-center mb-10">
-          <span className="inline-block text-[#4A8BFF] text-sm sm:text-base font-black tracking-[3px] bg-[#1A3A8A]/20 px-5 py-2 rounded-full border-2 border-[#4A8BFF]/20 mb-4">📺 EN VIVO DEL CLUB</span>
-          <h2 id="pasa-title" className="text-3xl sm:text-4xl font-black mt-4 leading-tight">LO QUE PASA EN <span className="text-[#4A8BFF]">ACRUX</span></h2>
-          <p className="text-white/60 text-sm sm:text-base mt-2">Noticias, partidos y campañas — actualizado por el club.</p>
-        </header>
-        <div className="grid md:grid-cols-3 gap-5">
-          {/* Noticias */}
-          <article className="bg-white/5 backdrop-blur-sm border-2 border-white/5 hover:border-[#4A8BFF]/40 rounded-3xl p-6 transition-colors duration-300 flex flex-col">
-            <h3 className="font-black text-white text-lg mb-3 flex items-center gap-2">📰 Noticias</h3>
-            {noticia ? (
-              <>
-                <p className="text-white/80 text-sm font-bold leading-snug mb-2">{noticia.title}</p>
-                <p className="text-white/50 text-xs leading-relaxed line-clamp-3 mb-4">{noticia.description}</p>
-                <a href="#news" className="mt-auto text-[#4A8BFF] text-sm font-bold hover:underline">Ver todas las noticias →</a>
-              </>
-            ) : (
-              <p className="text-white/40 text-sm">Muy pronto: novedades del club.</p>
-            )}
-          </article>
-          {/* Partidos */}
-          <article className="bg-white/5 backdrop-blur-sm border-2 border-white/5 hover:border-[#4A8BFF]/40 rounded-3xl p-6 transition-colors duration-300 flex flex-col">
-            <h3 className="font-black text-white text-lg mb-3 flex items-center gap-2">⚽ Partidos</h3>
-            {proximo ? (
-              <div className="mb-4">
-                <p className="text-xs uppercase tracking-widest text-[#4A8BFF] font-black mb-1">Próximo partido</p>
-                <p className="text-white/80 text-sm font-bold">{proximo.local ? '🏠 Acrux vs' : '✈️ Acrux @'} {proximo.rival}</p>
-                <p className="text-white/50 text-xs mt-1">{fmtFecha(proximo.fecha)} {proximo.hora || ''} · 📍 {proximo.lugar || 'Por confirmar'}</p>
-              </div>
-            ) : (
-              <p className="text-white/40 text-sm mb-4">Próximo partido por confirmar. 🗓️</p>
-            )}
-            {ultimo && (
-              <div className="mt-auto pt-3 border-t border-white/10">
-                <p className="text-xs uppercase tracking-widest text-white/40 font-black mb-1">Último resultado</p>
-                <p className="text-white/80 text-sm font-bold">Acrux {ultimo.goles_acrux} - {ultimo.goles_rival} {ultimo.rival}</p>
-              </div>
-            )}
-          </article>
-          {/* Campañas */}
-          <article className="bg-gradient-to-br from-[#1A3A8A]/30 to-[#4A8BFF]/10 border-2 border-[#4A8BFF]/30 rounded-3xl p-6 flex flex-col">
-            <h3 className="font-black text-white text-lg mb-3 flex items-center gap-2">📣 Campaña activa</h3>
-            {campanaActiva ? (
-              <>
-                <p className="text-white/80 text-sm font-bold leading-snug mb-2">Convocatoria abierta: categorías 2010 y 2012</p>
-                <p className="text-white/50 text-xs leading-relaxed mb-4">Prueba gratuita sin compromiso. {conv?.deadline ? `Cierra el ${fmtFecha(conv.deadline)}.` : ''}</p>
-                <a href="#contacto" className="mt-auto inline-flex justify-center items-center gap-2 bg-[#25D366] hover:bg-[#1FB957] px-4 py-2.5 rounded-xl font-bold text-white text-sm transition-colors">
-                  💬 Reservar mi prueba
-                </a>
-              </>
-            ) : (
-              <p className="text-white/40 text-sm">Sin campañas activas por ahora. ¡Vuelva pronto!</p>
-            )}
-          </article>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // 🔒 PUERTA INTERNA: la sección de Tendencias es material del equipo del club
 // (sugerencias del agente para los desarrolladores). Se abre con contraseña.
 // Para CAMBIAR la contraseña: reemplazar INTERN_SENHA_HASH por el SHA-256 de
@@ -1936,7 +1849,7 @@ function App() {
       <main>
         <Hero spots={spots} total={CONFIG.enrollment.totalSpots} />
         <NextMatchCountdown />
-        <LoQuePasa />
+        <NewsCarousel />
         <AccesoInterno>
           <SeccionTendencias />
         </AccesoInterno>
@@ -1944,7 +1857,6 @@ function App() {
         <PlayerStats />
         <InfoSection />
         <PositionQuiz />
-        <NewsCarousel />
         <Gallery />
         <VideosSection />
         <PlayerOfMonth />
