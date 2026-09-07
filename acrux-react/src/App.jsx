@@ -72,8 +72,8 @@ const CONFIG = {
   enrollment: {
     totalSpots: 20,
     initialAvailable: 6,
-    minAge: 12,
-    maxAge: 27,
+    minAge: 8,
+    maxAge: 17,
     guaranteeHours: 24,
   },
 };
@@ -279,6 +279,16 @@ const buildWaLinkWithData = (phone, data, conv) => {
     `Mi WhatsApp: ${data.phone || '—'}.\n\n` +
     `¿Me confirman horarios disponibles?`;
   return buildWaLink(phone, msg);
+};
+
+// 🆕 Medición (GA4-ready): los eventos se acumulan en el dataLayer. Cuando se
+// configure el ID de GA4/GTM en index.html, estos eventos se reportan solos,
+// sin volver a tocar el código. Si no hay nada escuchando, no hace nada.
+const trackEvent = (action, params = {}) => {
+  try {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: action, ...params });
+  } catch { /* la medición jamás debe romper la página */ }
 };
 
 // Convocatoria 2010/2012 — configuración viva en /content/convocatoria.json
@@ -578,7 +588,7 @@ function StickyCTA({ spots }) {
 
 function WhatsAppFloat() {
   return (
-    <a href={buildWaLink(CONFIG.whatsapp.number, CONFIG.whatsapp.defaultMessage)} target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp" className="fixed bottom-24 right-4 sm:bottom-28 sm:right-6 z-40 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-full">
+    <a href={buildWaLink(CONFIG.whatsapp.number, CONFIG.whatsapp.defaultMessage)} target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp" onClick={() => trackEvent('whatsapp_click', { ubicacion: 'flotante' })} className="fixed bottom-24 right-4 sm:bottom-28 sm:right-6 z-40 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-full">
       <span aria-hidden="true" className="absolute inset-0 rounded-full bg-[#25D366] opacity-40 animate-ping motion-reduce:animate-none" />
       <span className="relative flex w-14 h-14 sm:w-16 sm:h-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl shadow-[#25D366]/40 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 motion-reduce:transition-none">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" /></svg>
@@ -699,7 +709,7 @@ function Hero({ spots, total }) {
         </div>
         <div ref={r5.ref} className={cls('transition-all ease-out', r5.className)} style={r5.style}>
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
-            <Button href={buildWaLink(CONFIG.whatsapp.number, 'Hola Acrux, quiero reservar la prueba gratis')} size="lg" variant="whatsapp">
+            <Button href={buildWaLink(CONFIG.whatsapp.number, 'Hola Acrux, quiero reservar la prueba gratis')} size="lg" variant="whatsapp" onClick={() => trackEvent('whatsapp_click', { ubicacion: 'hero' })}>
               <span className="text-2xl sm:text-3xl" aria-hidden="true">⚽</span>
               <span>¡RESERVAR MI PRUEBA!</span>
               <span className="text-xl transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
@@ -1300,6 +1310,37 @@ function QuizStep({ step, total, question, onAnswer, onBack }) {
 }
 
 function QuizResult({ result, answers, onReset, onShareWa, onCopy, copied, onTryAgain }) {
+  const [lead, setLead] = useState({ name: '', phone: '' });
+  const [leadStatus, setLeadStatus] = useState('idle'); // idle | sending | sent | error
+  const submitLead = async (e) => {
+    e.preventDefault();
+    if (leadStatus === 'sending') return;
+    if (lead.name.trim().length < 3) return;
+    if (!/^[+\d\s()-]{7,}$/.test(lead.phone.trim())) return;
+    setLeadStatus('sending');
+    let ok = false;
+    try {
+      const res = await fetch('/api/convocatoria', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: lead.name, telefono: lead.phone,
+          nombre_jugador: null, edad: 0,
+          categoria: 'otra', posicion: result.position.id,
+          fuente: 'web-quiz',
+        }),
+      });
+      ok = res.ok;
+    } catch (err) {
+      console.warn('Lead del quiz falló:', err);
+    }
+    setLeadStatus(ok ? 'sent' : 'error');
+    trackEvent(ok ? 'quiz_lead_ok' : 'quiz_lead_error', { posicion: result.position.id });
+    if (ok) {
+      const msg = encodeURIComponent(`Hola Acrux, hice el quiz de posiciones y salí ${result.position.name.toUpperCase()} ${result.position.emoji}. Soy ${lead.name.trim()} (${lead.phone.trim()}). ¿Me dan info de la prueba gratis?`);
+      window.open(`https://wa.me/${CONFIG.whatsapp.number}?text=${msg}`, '_blank', 'noopener,noreferrer');
+    }
+  };
   return (
     <div className="text-center">
       <p className="text-sm uppercase tracking-widest text-white/50 font-black mb-2">Tu resultado</p>
@@ -1318,6 +1359,26 @@ function QuizResult({ result, answers, onReset, onShareWa, onCopy, copied, onTry
           </li>
         ))}
       </ul>
+
+      {leadStatus !== 'sent' ? (
+        <form onSubmit={submitLead} className="mb-6 bg-gradient-to-br from-[#1A3A8A]/20 to-[#4A8BFF]/10 border-2 border-[#4A8BFF]/30 rounded-2xl p-5 text-left space-y-3">
+          <p className="font-black text-white text-base">🏟️ ¿Quieres el plan de entrenamiento para {result.position.name}?</p>
+          <p className="text-white/60 text-xs">Déjanos tu nombre y WhatsApp: te enviamos el plan y apartamos una prueba gratis, sin compromiso.</p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <input type="text" value={lead.name} onChange={(e) => setLead({ ...lead, name: e.target.value })} placeholder="Tu nombre" autoComplete="name" required maxLength={60} className="w-full p-3 rounded-xl bg-black/50 border-2 border-[#1A3A8A]/50 focus:border-[#4A8BFF] text-base text-white placeholder-white/50 focus:outline-none" />
+            <input type="tel" value={lead.phone} onChange={(e) => setLead({ ...lead, phone: e.target.value })} placeholder="Tu WhatsApp" inputMode="tel" autoComplete="tel" required className="w-full p-3 rounded-xl bg-black/50 border-2 border-[#1A3A8A]/50 focus:border-[#4A8BFF] text-base text-white placeholder-white/50 focus:outline-none" />
+          </div>
+          <Button type="submit" size="md" fullWidth variant="whatsapp">
+            {leadStatus === 'sending' ? 'Enviando…' : (<><span aria-hidden="true">📲</span>ENVIARME MI PLAN DE ENTRENAMIENTO</>)}
+          </Button>
+          {leadStatus === 'error' && <p role="alert" className="text-xs text-amber-300">No pudimos registrarlo, pero puedes escribirnos directo al botón "Compartir en WhatsApp".</p>}
+        </form>
+      ) : (
+        <div role="status" className="mb-6 p-4 rounded-2xl border-2 border-emerald-400/40 bg-emerald-500/10 text-emerald-200 text-sm leading-relaxed">
+          <p className="font-black text-base text-white mb-1">✅ ¡Listo, {lead.name.split(' ')[0]}!</p>
+          <p>Guarda nuestro número <strong className="text-white">{CONFIG.whatsapp.number}</strong>: te escribimos con el plan para {result.position.name.toLowerCase()} en menos de 24 h.</p>
+        </div>
+      )}
 
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <button
@@ -1399,7 +1460,7 @@ function PlayerOfMonth() {
             );
           })}
         </ul>
-        <p className="text-center text-xs text-white/40 mt-8">Total de votos: <strong className="text-white">{total}</strong> · Votación abierta hasta el 31 de agosto</p>
+        <p className="text-center text-xs text-white/40 mt-8">Total de votos: <strong className="text-white">{total}</strong> · ¡Vota por tu jugador favorito del mes!</p>
       </div>
     </section>
   );
@@ -1437,18 +1498,64 @@ function Testimonials() {
   );
 }
 
+// ════════════════════════════════════════════
+// 🆕 SECCIÓN: FAQ para padres — resuelve dudas antes del formulario
+//    (contenido desde convocatoria.json + JSON-LD FAQPage para Google)
+// ════════════════════════════════════════════
+function FaqSection() {
+  const conv = useConvocatoria();
+  const faqs = conv?.faq || [];
+  if (!faqs.length) return null;
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+  return (
+    <section id="faq" className="relative py-20 sm:py-24 px-4 sm:px-8 border-t border-[#1A3A8A]/30" aria-labelledby="faq-title">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <div className="relative z-10 max-w-3xl mx-auto">
+        <header className="text-center mb-10">
+          <span className="inline-block text-[#4A8BFF] text-sm sm:text-base font-black tracking-[3px] bg-[#1A3A8A]/20 px-5 py-2 rounded-full border-2 border-[#4A8BFF]/20 mb-4">❓ DUDAS DE PADRES</span>
+          <h2 id="faq-title" className="text-3xl sm:text-4xl font-black mt-4 leading-tight">LO QUE TODOS <span className="text-[#4A8BFF]">PREGUNTAN</span></h2>
+          <p className="text-white/60 text-sm sm:text-base mt-2">Respuestas claras antes de reservar tu prueba gratis.</p>
+        </header>
+        <ul className="list-none space-y-3">
+          {faqs.map((f, i) => (
+            <li key={i} className="bg-white/5 backdrop-blur-sm border-2 border-white/5 rounded-2xl overflow-hidden transition-colors duration-300 hover:border-[#4A8BFF]/30">
+              <details className="group">
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none p-5 font-bold text-white/90 text-sm sm:text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]">
+                  {f.q}
+                  <span className="text-[#4A8BFF] text-xl shrink-0 transition-transform duration-300 group-open:rotate-45 motion-reduce:transition-none" aria-hidden="true">+</span>
+                </summary>
+                <p className="px-5 pb-5 text-white/70 text-sm sm:text-base leading-relaxed">{f.a}</p>
+              </details>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 function ContactForm({ spots }) {
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState('idle'); // idle | sending | success | error
   const [errors, setErrors] = useState({});
   const formId = useId();
   const conv = useConvocatoria();
   const categorias = conv?.categorias || [];
+  const cupos = conv?.cupos_disponibles ?? spots;
   const validate = (d) => {
     const e = {};
     if (!d.parentName?.trim()) e.parentName = 'Necesitamos tu nombre para contactarte';
     if (!d.phone?.trim()) e.phone = 'Tu WhatsApp es para enviarte los horarios';
     else if (!/^[+\d\s()-]{7,}$/.test(d.phone.trim())) e.phone = 'Revisá el número, parece incompleto';
     if (!d.category) e.category = 'Elegí la categoría del jugador';
+    if (d.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())) e.email = 'Revisá el correo, parece incompleto';
     if (d.playerAge) {
       const a = parseInt(d.playerAge, 10);
       if (Number.isNaN(a) || a < CONFIG.enrollment.minAge || a > CONFIG.enrollment.maxAge) e.playerAge = `Trabajamos con jugadores de ${CONFIG.enrollment.minAge} a ${CONFIG.enrollment.maxAge} años`;
@@ -1461,41 +1568,43 @@ function ContactForm({ spots }) {
         if (anio !== esperado) e.fechaNacimiento = `${cat.label} es para nacidos en ${esperado}`;
       }
     }
+    if (!d.consent) e.consent = 'Necesitamos tu autorización para contactarte';
     return e;
   };
   const onSubmit = async (e) => {
     e.preventDefault();
     if (status === 'sending') return;
-    const data = Object.fromEntries(new FormData(e.currentTarget).entries());
-    if (data.website) { setStatus('success'); setTimeout(() => setStatus('idle'), 6000); return; } // honeypot anti-bots
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+    if (data.website) { setStatus('success'); return; } // honeypot anti-bots
     const errs = validate(data);
     setErrors(errs);
     if (Object.keys(errs).length) return;
     setStatus('sending');
-    {
-      try {
-        await fetch('/api/convocatoria', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            nombre: data.parentName, telefono: data.phone,
-            nombre_jugador: data.playerName,
-            edad: parseInt(data.playerAge, 10) || 0,
-            categoria: data.category,
-            fecha_nacimiento: data.fechaNacimiento || null,
-            posicion: data.position || null, fuente: 'web',
-          }),
-        });
-      } catch (err) {
-        console.warn('Registro backend falló (continuamos con WhatsApp):', err);
-      }
+    let registrado = false;
+    try {
+      const res = await fetch('/api/convocatoria', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: data.parentName, telefono: data.phone, email: data.email || null,
+          nombre_jugador: data.playerName,
+          edad: parseInt(data.playerAge, 10) || 0,
+          categoria: data.category,
+          fecha_nacimiento: data.fechaNacimiento || null,
+          posicion: null, fuente: 'web-form',
+        }),
+      });
+      registrado = res.ok;
+    } catch (err) {
+      console.warn('Registro backend falló:', err);
     }
+    trackEvent(registrado ? 'form_submit_ok' : 'form_submit_error', { categoria: data.category });
     await new Promise((r) => setTimeout(r, 400));
     const waUrl = buildWaLinkWithData(CONFIG.whatsapp.number, data, conv);
     window.open(waUrl, '_blank', 'noopener,noreferrer');
-    setStatus('success');
-    e.currentTarget.reset();
-    setTimeout(() => setStatus('idle'), 6000);
+    form.reset();
+    setStatus(registrado ? 'success' : 'error');
   };
   const inputBase = 'w-full p-4 rounded-xl bg-black/50 border-2 text-base text-white placeholder-white/50 transition-[border-color,box-shadow,transform] duration-300 focus:outline-none focus:scale-[1.01] motion-reduce:focus:scale-100 motion-reduce:transition-none';
   const inputOk = 'border-[#1A3A8A]/50 focus:border-[#4A8BFF] focus:shadow-2xl focus:shadow-[#1A3A8A]/30';
@@ -1509,8 +1618,23 @@ function ContactForm({ spots }) {
           <h2 id="contacto-title" className="text-3xl sm:text-4xl font-black mt-4 leading-tight">RESERVÁ <span className="text-[#4A8BFF] animate-pulse motion-reduce:animate-none">TU PRUEBA</span></h2>
           <p className="text-white/60 text-sm sm:text-base mt-2">Completá el formulario y te contactamos por WhatsApp en menos de {CONFIG.enrollment.guaranteeHours}h.</p>
           <div className="mt-4 inline-flex items-center gap-3 bg-[#1A3A8A]/20 border-2 border-[#4A8BFF]/20 px-5 py-2 rounded-full text-sm font-black text-[#4A8BFF] backdrop-blur-sm" role="status" aria-live="polite">
-            <span aria-hidden="true">⚠️</span> Quedan <span className="text-white font-bold text-xl">{formatNumber(spots)}</span> cupos esta semana
+            <span aria-hidden="true">⚠️</span> Quedan <span className="text-white font-bold text-xl">{formatNumber(cupos)}</span> cupos esta semana
           </div>
+          {(status === 'success' || status === 'error') && (
+            <div role="status" className={cls('mt-4 p-4 rounded-2xl border-2 text-sm leading-relaxed text-left', status === 'success' ? 'bg-emerald-500/10 border-emerald-400/40 text-emerald-200' : 'bg-amber-500/10 border-amber-400/40 text-amber-200')}>
+              {status === 'success' ? (
+                <>
+                  <p className="font-black text-base mb-1">✅ ¡Inscripción recibida!</p>
+                  <p>Guarda nuestro número <strong className="text-white">{CONFIG.whatsapp.number}</strong>: te escribimos en menos de {CONFIG.enrollment.guaranteeHours} h con los horarios de la prueba.</p>
+                </>
+              ) : (
+                <>
+                  <p className="font-black text-base mb-1">⚠️ No pudimos registrar el formulario</p>
+                  <p>Pero tu cupo no se pierde: escríbenos directo por WhatsApp con el botón de abajo y te apartamos igual.</p>
+                </>
+              )}
+            </div>
+          )}
         </header>
         <form onSubmit={onSubmit} noValidate className="space-y-5 bg-white/5 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border-2 border-white/5 shadow-2xl shadow-[#1A3A8A]/10 hover:shadow-[#1A3A8A]/30 transition-shadow duration-300 motion-reduce:transition-none" aria-describedby={`${formId}-help`}>
           <div>
@@ -1544,6 +1668,7 @@ function ContactForm({ spots }) {
                 {categorias.map((c) => (
                   <option key={c.id} value={c.id} className="bg-[#0B1B33] text-white">{c.label} · {c.edades}</option>
                 ))}
+                <option value="otra" className="bg-[#0B1B33] text-white">Otra categoría · cuéntanos</option>
               </select>
               {errors.category && <p role="alert" className="mt-1.5 text-xs text-red-400">{errors.category}</p>}
             </div>
@@ -1554,13 +1679,19 @@ function ContactForm({ spots }) {
             </div>
           </div>
           <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+          <div>
+            <label htmlFor={`${formId}-consent`} className="flex items-start gap-3 text-xs text-white/60 cursor-pointer">
+              <input id={`${formId}-consent`} type="checkbox" name="consent" className="mt-0.5 w-5 h-5 shrink-0 accent-[#4A8BFF]" />
+              <span>Autorizo a Acrux FC usar mis datos únicamente para el proceso de inscripción y contacto (Ley 1581 de 2012). <span className="text-[#4A8BFF]" aria-hidden="true">*</span></span>
+            </label>
+            {errors.consent && <p role="alert" className="mt-1.5 text-xs text-red-400">{errors.consent}</p>}
+          </div>
           <Button type="submit" size="lg" fullWidth variant="whatsapp">
-            {status === 'sending' && (<><svg className="animate-spin motion-reduce:animate-none w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.25" strokeWidth="4" /><path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" /></svg>Abriendo WhatsApp…</>)}
-            {status === 'success' && (<><span className="text-2xl motion-safe:animate-bounce" aria-hidden="true">✅</span>¡TE ABRIÓ WHATSAPP!</>)}
-            {status === 'idle' && (<><span className="text-2xl" aria-hidden="true">🏆</span>¡RESERVAR MI PRUEBA!</>)}
+            {status === 'sending' && (<><svg className="animate-spin motion-reduce:animate-none w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.25" strokeWidth="4" /><path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" /></svg>Enviando…</>)}
+            {status !== 'sending' && (<><span className="text-2xl" aria-hidden="true">🏆</span>¡RESERVAR MI PRUEBA!</>)}
           </Button>
           <p id={`${formId}-help`} className="text-center text-xs sm:text-sm text-white/50" aria-live="polite">
-            {status === 'success' ? '🎉 Si no se abrió WhatsApp, escribinos directo al botón verde abajo.' : '🔒 Tus datos solo se usan para contactarte sobre la prueba.'}
+            {status === 'success' ? '🎉 Revisa tu WhatsApp: te escribimos en menos de 24 h con los horarios.' : '🔒 Tus datos solo se usan para contactarte sobre la prueba.'}
           </p>
         </form>
         <div className="mt-6 text-center">
@@ -1622,7 +1753,8 @@ function LocalBusinessSchema() {
 }
 
 function App() {
-  const [spots] = useState(CONFIG.enrollment.initialAvailable);
+  const conv = useConvocatoria();
+  const spots = conv?.cupos_disponibles ?? CONFIG.enrollment.initialAvailable;
   useEffect(() => {
     const handler = (e) => {
       const a = e.target.closest('a[href^="#"]');
@@ -1658,6 +1790,7 @@ function App() {
         <VideosSection />
         <PlayerOfMonth />
         <Testimonials />
+        <FaqSection />
         <ContactForm spots={spots} />
       </main>
       <Footer />

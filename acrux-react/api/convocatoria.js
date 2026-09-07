@@ -30,17 +30,24 @@ export default async function handler(req, res) {
   const nombre_jugador = String(b.nombre_jugador || '').trim();
   const edad = Number(b.edad) || 0;
   const categoria = String(b.categoria || '').trim();
-  if (nombre.length < 3 || nombre_jugador.length < 3) {
+  const email = String(b.email || '').trim().toLowerCase();
+  if (nombre.length < 3 || (nombre_jugador.length < 3 && !b.posicion)) {
+    // Con posicion presente es un lead del quiz: el nombre del jugador puede llegar después
     return res.status(400).json({ ok: false, error: 'datos incompletos' });
   }
   if (telefono.length < 7 || telefono.length > 15) {
     return res.status(400).json({ ok: false, error: 'teléfono inválido' });
   }
-  if (edad < 8 || edad > 25) {
+  // Rango amplio a propósito: nunca perder un lead por la edad; el club filtra después.
+  // edad 0 = sin dato (leads del quiz)
+  if (edad !== 0 && (edad < 5 || edad > 30)) {
     return res.status(400).json({ ok: false, error: 'edad fuera de rango' });
   }
-  if (!['2010', '2012', 'sub13', 'sub15', 'sub17', 'sub20'].includes(categoria)) {
+  if (!['2010', '2012', 'sub13', 'sub15', 'sub17', 'sub20', 'otra'].includes(categoria)) {
     return res.status(400).json({ ok: false, error: 'categoría no válida' });
+  }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ ok: false, error: 'email inválido' });
   }
 
   const TOKEN = process.env.GITHUB_TOKEN;
@@ -77,12 +84,13 @@ export default async function handler(req, res) {
       estado: 'pendiente',
       nombre,
       telefono,
-      nombre_jugador,
-      edad,
+      email: email || null,
+      nombre_jugador: nombre_jugador || null,
+      edad: edad || null,
       categoria,
       posicion: String(b.posicion || '').toUpperCase() || null,
       fecha_nacimiento: b.fecha_nacimiento || null,
-      fuente: 'web',
+      fuente: String(b.fuente || 'web'),
     });
     const nuevo = (contenido ? contenido.trimEnd() + '\n' : '') + linea + '\n';
 

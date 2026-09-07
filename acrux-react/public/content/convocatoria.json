@@ -1,7 +1,8 @@
 {
-  "_comentario": "Config viva de la convocatoria. Las inscripciones web se guardan vía /api/convocatoria (serverless Vercel → GitHub) y el sistema de la casa las sincroniza cada 30 min. Editar deadline aquí cuando se defina la fecha real.",
+  "_comentario": "Config viva de la convocatoria. Las inscripciones web se guardan vía /api/convocatoria (serverless Vercel → GitHub) y el sistema de la casa las sincroniza cada 30 min. Editar deadline y cupos aquí cuando cambien.",
   "inscripcion_abierta": true,
   "deadline": "2026-10-03T23:59:59",
+  "cupos_disponibles": 6,
   "categorias": [
     {
       "id": "2010",
@@ -12,6 +13,32 @@
       "id": "2012",
       "label": "Categoría 2012",
       "edades": "13-14 años"
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Cuánto cuesta la primera clase?",
+      "a": "La primera clase es gratis y sin compromiso. Si te gusta, la mensualidad empieza desde $90.000 COP, sin matrícula y sin permanencia."
+    },
+    {
+      "q": "¿Qué horarios tienen los entrenamientos?",
+      "a": "Lunes, miércoles y viernes de 7:00 a 10:00 a.m., y sábados de 9:00 a 11:00 a.m., en la Cancha Sanmartín (Cra 13 #6-80, San Juan de Paz, Sibaté)."
+    },
+    {
+      "q": "¿Qué categorías atienden?",
+      "a": "Formación para niñas, niños y jóvenes desde los 8 años: categorías sub-13, sub-15, sub-17 y mayores. La convocatoria actual está abierta para nacidos en 2010 y 2012."
+    },
+    {
+      "q": "¿Dónde entrena Acrux FC?",
+      "a": "En Sibaté, Cundinamarca: Cancha Sanmartín, Cra 13 #6-80, San Juan de Paz. Fácil acceso desde Soacha, Fusagasugá y el sur de Bogotá."
+    },
+    {
+      "q": "¿Cómo es la prueba para entrar?",
+      "a": "Agenda tu prueba gratis por WhatsApp: el jugador entrena con el grupo de su categoría y el profesor evalúa técnica y actitud. Sin permanencia: si no te convence, no pasa nada."
+    },
+    {
+      "q": "¿Qué necesita mi hijo para empezar?",
+      "a": "Ropa deportiva, espinilleras y muchas ganas. El primer día lo recibimos con una clase completa para que conozca al grupo y al profesor."
     }
   ]
 }
