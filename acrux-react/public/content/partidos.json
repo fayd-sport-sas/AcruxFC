@@ -1,0 +1,5 @@
+{
+  "_comentario": "Calendario de partidos. Editar aquí (o hacerlo el sistema de contenido): 'proximo' = próximo partido; 'ultimo' = último resultado. Dejar en null si aún no hay fecha confirmada. La web muestra 'Por confirmar' automáticamente.",
+  "proximo": null,
+  "ultimo": null
+}

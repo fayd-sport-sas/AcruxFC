@@ -86,12 +86,13 @@ const NAV_LINKS = [
 // Menú secundario agrupado en el desplegable "Más" (desktop);
 // en móvil se muestran todos juntos en el drawer.
 const NAV_MORE = [
-  { href: '#tendencias', label: 'Tendencias' },
+  { href: '#pasa', label: '📺 Lo que pasa' },
   { href: '#galeria', label: 'Galería' },
   { href: '#news', label: 'Noticias' },
   { href: '#videos', label: 'Videos' },
   { href: '#quiz', label: 'Quiz' },
   { href: '#vota', label: 'Votá' },
+  { href: '#tendencias', label: '🔒 Tendencias' },
 ];
 
 // 🆕 GALLERY ahora con category para filtros
@@ -1562,6 +1563,141 @@ function FaqSection() {
   );
 }
 
+// ════════════════════════════════════════════
+// 🆕 SECCIÓN: Lo que pasa en Acrux (pública) — noticias, partidos y campañas
+// ════════════════════════════════════════════
+function usePartidos() {
+  const [partidos, setPartidos] = useState(null);
+  useEffect(() => {
+    fetch('/content/partidos.json')
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error())))
+      .then(setPartidos)
+      .catch(() => setPartidos(null));
+  }, []);
+  return partidos;
+}
+
+function LoQuePasa() {
+  const conv = useConvocatoria();
+  const partidos = usePartidos();
+  const noticia = NEWS[0];
+  const proximo = partidos?.proximo || null;
+  const ultimo = partidos?.ultimo || null;
+  const campanaActiva = conv?.inscripcion_abierta;
+  const fmtFecha = (iso) => {
+    try { return new Date(iso).toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' }); }
+    catch { return ''; }
+  };
+  return (
+    <section id="pasa" className="relative py-20 sm:py-24 px-4 sm:px-8 border-t border-[#1A3A8A]/30" aria-labelledby="pasa-title">
+      <div className="relative z-10 max-w-6xl mx-auto">
+        <header className="text-center mb-10">
+          <span className="inline-block text-[#4A8BFF] text-sm sm:text-base font-black tracking-[3px] bg-[#1A3A8A]/20 px-5 py-2 rounded-full border-2 border-[#4A8BFF]/20 mb-4">📺 EN VIVO DEL CLUB</span>
+          <h2 id="pasa-title" className="text-3xl sm:text-4xl font-black mt-4 leading-tight">LO QUE PASA EN <span className="text-[#4A8BFF]">ACRUX</span></h2>
+          <p className="text-white/60 text-sm sm:text-base mt-2">Noticias, partidos y campañas — actualizado por el club.</p>
+        </header>
+        <div className="grid md:grid-cols-3 gap-5">
+          {/* Noticias */}
+          <article className="bg-white/5 backdrop-blur-sm border-2 border-white/5 hover:border-[#4A8BFF]/40 rounded-3xl p-6 transition-colors duration-300 flex flex-col">
+            <h3 className="font-black text-white text-lg mb-3 flex items-center gap-2">📰 Noticias</h3>
+            {noticia ? (
+              <>
+                <p className="text-white/80 text-sm font-bold leading-snug mb-2">{noticia.title}</p>
+                <p className="text-white/50 text-xs leading-relaxed line-clamp-3 mb-4">{noticia.description}</p>
+                <a href="#news" className="mt-auto text-[#4A8BFF] text-sm font-bold hover:underline">Ver todas las noticias →</a>
+              </>
+            ) : (
+              <p className="text-white/40 text-sm">Muy pronto: novedades del club.</p>
+            )}
+          </article>
+          {/* Partidos */}
+          <article className="bg-white/5 backdrop-blur-sm border-2 border-white/5 hover:border-[#4A8BFF]/40 rounded-3xl p-6 transition-colors duration-300 flex flex-col">
+            <h3 className="font-black text-white text-lg mb-3 flex items-center gap-2">⚽ Partidos</h3>
+            {proximo ? (
+              <div className="mb-4">
+                <p className="text-xs uppercase tracking-widest text-[#4A8BFF] font-black mb-1">Próximo partido</p>
+                <p className="text-white/80 text-sm font-bold">{proximo.local ? '🏠 Acrux vs' : '✈️ Acrux @'} {proximo.rival}</p>
+                <p className="text-white/50 text-xs mt-1">{fmtFecha(proximo.fecha)} {proximo.hora || ''} · 📍 {proximo.lugar || 'Por confirmar'}</p>
+              </div>
+            ) : (
+              <p className="text-white/40 text-sm mb-4">Próximo partido por confirmar. 🗓️</p>
+            )}
+            {ultimo && (
+              <div className="mt-auto pt-3 border-t border-white/10">
+                <p className="text-xs uppercase tracking-widest text-white/40 font-black mb-1">Último resultado</p>
+                <p className="text-white/80 text-sm font-bold">Acrux {ultimo.goles_acrux} - {ultimo.goles_rival} {ultimo.rival}</p>
+              </div>
+            )}
+          </article>
+          {/* Campañas */}
+          <article className="bg-gradient-to-br from-[#1A3A8A]/30 to-[#4A8BFF]/10 border-2 border-[#4A8BFF]/30 rounded-3xl p-6 flex flex-col">
+            <h3 className="font-black text-white text-lg mb-3 flex items-center gap-2">📣 Campaña activa</h3>
+            {campanaActiva ? (
+              <>
+                <p className="text-white/80 text-sm font-bold leading-snug mb-2">Convocatoria abierta: categorías 2010 y 2012</p>
+                <p className="text-white/50 text-xs leading-relaxed mb-4">Prueba gratuita sin compromiso. {conv?.deadline ? `Cierra el ${fmtFecha(conv.deadline)}.` : ''}</p>
+                <a href="#contacto" className="mt-auto inline-flex justify-center items-center gap-2 bg-[#25D366] hover:bg-[#1FB957] px-4 py-2.5 rounded-xl font-bold text-white text-sm transition-colors">
+                  💬 Reservar mi prueba
+                </a>
+              </>
+            ) : (
+              <p className="text-white/40 text-sm">Sin campañas activas por ahora. ¡Vuelva pronto!</p>
+            )}
+          </article>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// 🔒 PUERTA INTERNA: la sección de Tendencias es material del equipo del club
+// (sugerencias del agente para los desarrolladores). Se abre con contraseña.
+// Para CAMBIAR la contraseña: reemplazar INTERN_SENHA_HASH por el SHA-256 de
+// la nueva (python: hashlib.sha256('clave'.encode()).hexdigest()).
+const INTERN_SENHA_HASH = '15e0f22f24affc0ec0701ae0bb0535cf7f7fa9333a77150a8db892088ade8dca';
+
+function AccesoInterno({ children }) {
+  const [abierto, setAbierto] = useState(() => {
+    try { return sessionStorage.getItem('acrux-interno') === '1'; } catch { return false; }
+  });
+  const [pass, setPass] = useState('');
+  const [error, setError] = useState(false);
+  const entrar = async (e) => {
+    e.preventDefault();
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
+    const hex = Array.from(new Uint8Array(buf)).map((x) => x.toString(16).padStart(2, '0')).join('');
+    if (hex === INTERN_SENHA_HASH) {
+      try { sessionStorage.setItem('acrux-interno', '1'); } catch { /* sesión normal */ }
+      setAbierto(true);
+    } else {
+      setError(true);
+    }
+  };
+  if (abierto) return children;
+  return (
+    <section id="tendencias" className="w-full py-16 sm:py-20 px-4 sm:px-8 border-t border-[#1A3A8A]/30" aria-labelledby="interno-title">
+      <div className="max-w-md mx-auto text-center">
+        <span className="inline-block text-[#4A8BFF] text-sm font-black tracking-[3px] bg-[#1A3A8A]/20 px-5 py-2 rounded-full border-2 border-[#4A8BFF]/20 mb-4">🔒 ÁREA INTERNA</span>
+        <h2 id="interno-title" className="text-3xl font-black mt-4 mb-2">Tendencias y <span className="text-[#4A8BFF]">Novedades</span></h2>
+        <p className="text-white/50 text-sm mb-6">Contenido de trabajo del equipo técnico. Ingresa con la clave del club.</p>
+        <form onSubmit={entrar} className="flex flex-col sm:flex-row gap-3">
+          <input
+            type="password"
+            value={pass}
+            onChange={(e) => { setPass(e.target.value); setError(false); }}
+            placeholder="Clave del club"
+            aria-label="Clave del club"
+            autoFocus
+            className="flex-1 p-3.5 rounded-xl bg-black/50 border-2 border-[#1A3A8A]/50 focus:border-[#4A8BFF] text-base text-white placeholder-white/40 focus:outline-none"
+          />
+          <Button type="submit" size="md" variant="primary"><span aria-hidden="true">🔓</span>Ingresar</Button>
+        </form>
+        {error && <p role="alert" className="mt-3 text-xs text-red-400">Clave incorrecta. Vuelve a intentarlo.</p>}
+      </div>
+    </section>
+  );
+}
+
 function ContactForm({ spots }) {
   const [status, setStatus] = useState('idle'); // idle | sending | success | error
   const [errors, setErrors] = useState({});
@@ -1800,7 +1936,10 @@ function App() {
       <main>
         <Hero spots={spots} total={CONFIG.enrollment.totalSpots} />
         <NextMatchCountdown />
-        <SeccionTendencias />
+        <LoQuePasa />
+        <AccesoInterno>
+          <SeccionTendencias />
+        </AccesoInterno>
         <SeccionContenido />
         <PlayerStats />
         <InfoSection />
