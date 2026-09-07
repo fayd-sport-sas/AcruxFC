@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://acruxfc.com/sitemap.xml
+Sitemap: https://www.acruxfc.com/sitemap.xml
