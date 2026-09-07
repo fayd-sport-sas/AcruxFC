@@ -98,7 +98,7 @@ const GALLERY = [
   { src: '/foto/img_10.jpg', alt: 'Celebración de gol', caption: 'Celebración', emoji: '🎉', category: 'sub15' },
   { src: '/foto/img_11.jpg', alt: 'Equipo completo', caption: 'Equipo Acrux', emoji: '🤝', category: 'all' },
   { src: '/foto/img_a02.jpg', alt: 'Trabajo con balón', caption: 'Trabajo con balón', emoji: '⚽', category: 'sub13' },
-  { src: '/foto/Rivaldo.png', alt: 'Gol en el último minuto', caption: 'Gol en el último minuto', emoji: '🔥', category: 'sub17' },
+  { src: '/foto/Rivaldo.jpg', alt: 'Gol en el último minuto', caption: 'Gol en el último minuto', emoji: '🔥', category: 'sub17' },
   { src: 'https://images.unsplash.com/photo-1518604666860-9ed391f76460?w=800', alt: 'Entrenamiento táctico', caption: 'Trabajo táctico', emoji: '🧠', category: 'sub15' },
   { src: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800', alt: 'Resistencia física', caption: 'Resistencia', emoji: '🏃', category: 'sub13' },
 ];
@@ -140,7 +140,7 @@ Acrux FC -> Patriotas Boyacá`,
   date: '2026-07-10',
   badge: '⭐ NOTICIA',
   badgeColor: 'blue',
-  image: '/foto/Rivaldo.png',
+  image: '/foto/Rivaldo.jpg',
   gallery: [],
   href: '#',
 },
@@ -154,7 +154,7 @@ Nacido en Acandí, Chocó. Exdelantero profesional (Debut 2004 Cortuluá) y sele
   date: '2026-07-10',
   badge: '⭐ NOTICIA',
   badgeColor: 'blue',
-  image: '/foto/phil.png',
+  image: '/foto/phil.jpg',
   gallery: [],
   href: '#',
 },
@@ -163,8 +163,6 @@ Nacido en Acandí, Chocó. Exdelantero profesional (Debut 2004 Cortuluá) y sele
 const VIDEOS = [
   { id: 'v1', title: 'Mateo: "Acrux me cambió la vida"', player: 'Mateo R. · Sub-17', duration: '2:14', youtubeId: 'cceE67xo9mo', description: 'Mateo cuenta cómo llegó a Acrux hace un año y su progreso en el equipo.', emoji: '🎙️' },
   { id: 'v2', title: 'Valentina: de 0 a seleccionada', player: 'Valentina P. · Sub-15', duration: '1:48', youtubeId: 'tFRaTMwEIbY', description: 'El camino de Valentina hasta la convocatoria a la selección Valle.', emoji: '⭐' },
-  { id: 'v3', title: 'Entrenador: "Nuestra metodología"', player: 'Prof. Carlos · DT Principal', duration: '3:22', youtubeId: 'dQw4w9WgXcQ', description: 'El profe Carlos explica cómo entrenamos y qué nos diferencia de otras academias.', emoji: '👨‍🏫' },
-  { id: 'v4', title: 'Mamá de Santiago: testimonio', player: 'Carolina H. · Mamá de jugador', duration: '1:35', youtubeId: 'dQw4w9WgXcQ', description: 'Carolina nos cuenta por qué eligió Acrux y qué vio en su hijo en estos meses.', emoji: '💬' },
 ];
 
 const PLAYERS = [
@@ -505,7 +503,7 @@ function Navbar({ spots }) {
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
             <div className="leading-tight">
-              <h1 className="font-black text-xl sm:text-2xl tracking-tight">AC<span className="text-[#4A8BFF]">RUX</span></h1>
+              <p className="font-black text-xl sm:text-2xl tracking-tight">AC<span className="text-[#4A8BFF]">RUX</span></p>
               <p className="text-[10px] text-white/50 tracking-[4px]">FÚTBOL · {CONFIG.brand.city.toUpperCase()}</p>
             </div>
           </a>
@@ -608,13 +606,9 @@ function NextMatchCountdown() {
   const isToday = !expired && totalSeconds < 3600 * 6; // menos de 6h
 
   if (expired) {
-    return (
-      <section className="py-6 px-4 sm:px-8 border-b border-white/5 bg-black/60" aria-label="Próximo partido">
-        <div className="max-w-5xl mx-auto text-center">
-          <p className="text-white/60 text-sm">🏟️ El partido ya empezó o terminó. ¡Mirá los resultados en <a href="#news" className="text-[#4A8BFF] hover:underline">Noticias</a>!</p>
-        </div>
-      </section>
-    );
+    // Sin partido programado: la sección no se muestra (evita el banner
+    // "el partido terminó" congelado durante semanas hasta definir el próximo).
+    return null;
   }
 
   return (
