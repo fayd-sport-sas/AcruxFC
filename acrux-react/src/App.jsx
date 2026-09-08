@@ -947,7 +947,7 @@ function NewsCarousel() {
     yellow: 'bg-amber-500/20 text-amber-300 border-amber-400/40',
     red: 'bg-red-500/20 text-red-300 border-red-400/40',
   };
-  const todas = [...noticiasNube, ...NEWS];
+  const todas = [...noticiasNube, ...NEWS].slice(0, 7); // máx 7: se rotan, no se acumulan
   return (
     <section id="news" className="py-20 sm:py-24 px-4 sm:px-8 bg-gradient-to-b from-black via-[#0A0A0A] to-black overflow-hidden" aria-labelledby="news-title">
       <div className="max-w-6xl mx-auto">
