@@ -7,11 +7,19 @@ Ken Burns alternado + transiciones fundidas + música normalizada a -14 LUFS.
 Diseñado para correr en runners gratuitos: súpermuestra 1.5x y sin deps
 raras (solo Pillow + ffmpeg, ambos preinstalados/instalables en ubuntu).
 """
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 from PIL import Image
+
+# Los runners nuevos de GitHub ya no traen ffmpeg preinstalado: instalarlo
+# aquí mismo (el runner tiene sudo sin contraseña).
+if not shutil.which('ffmpeg'):
+    print('ffmpeg no presente: instalando...')
+    subprocess.run(['sudo', 'apt-get', 'update', '-qq'], check=True)
+    subprocess.run(['sudo', 'apt-get', 'install', '-y', '-qq', 'ffmpeg'], check=True)
 
 W, H, FPS, FADE = 1080, 1920, 30, 0.6
 FONDO = (11, 27, 58)  # #0B1B3A — azul Acrux
