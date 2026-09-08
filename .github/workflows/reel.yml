@@ -1,0 +1,54 @@
+name: Render Reel de Carrusel
+
+# Se dispara al subir láminas nuevas a renders/entrada/, por el botón
+# "Run workflow" de la pestaña Actions, o por señal remota del sistema.
+
+on:
+  push:
+    paths:
+      - 'renders/entrada/**'
+  workflow_dispatch:
+    inputs:
+      carpeta:
+        description: 'Carpeta con las láminas PNG'
+        required: false
+        default: 'renders/entrada/carrusel_prueba'
+      duracion:
+        description: 'Duración total del reel (segundos)'
+        required: false
+        default: '15'
+  repository_dispatch:
+    types: [render-reel]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: render-reel
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Pillow
+        run: pip install pillow
+
+      - name: Renderizar reel
+        run: |
+          CARPETA="${{ github.event.inputs.carpeta || github.event.client_payload.carpeta || 'renders/entrada/carrusel_prueba' }}"
+          DUR="${{ github.event.inputs.duracion || github.event.client_payload.duracion || '15' }}"
+          MUSICA=$(ls renders/musica/*.mp3 | head -1)
+          python3 scripts/render_reel.py "$CARPETA" "$MUSICA" \
+            "renders/reels_listos/reel_$(date +%Y%m%d_%H%M%S).mp4" "$DUR"
+
+      - name: Guardar el MP4 en el repo
+        run: |
+          git config user.name "acrux-render"
+          git config user.email "render@acruxfc.com"
+          git add renders/reels_listos/
+          git commit -m "Reel renderizado en la nube"
+          git push
