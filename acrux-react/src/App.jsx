@@ -883,6 +883,30 @@ function NewsCarousel() {
   const scrollerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeNews, setActiveNews] = useState(null);  // ← NUEVO
+  // 🆕 Noticias dinámicas del feed de Google News (agents/agente_noticias.py
+  // publica /content/noticias.json). Si el feed falla, quedan las fijas.
+  const [noticiasNube, setNoticiasNube] = useState([]);
+  useEffect(() => {
+    fetch('/content/noticias.json')
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error())))
+      .then((items) => {
+        const mapeadas = (items || []).map((n) => ({
+          id: `web-${n.id}`,
+          type: n.tipo,
+          title: n.titulo,
+          description: n.descripcion,
+          date: n.fecha,
+          badge: n.badge,
+          badgeColor: n.badgeColor,
+          image: n.imagen_url,
+          href: n.url_fuente,
+          urlFuente: n.url_fuente,
+          fuente: n.fuente,
+        }));
+        setNoticiasNube(mapeadas);
+      })
+      .catch(() => { /* sin feed: quedan las noticias fijas */ });
+  }, []);
   const scrollToIndex = useCallback((i) => {
     if (!scrollerRef.current) return;
     const card = scrollerRef.current.children[i];
@@ -923,6 +947,7 @@ function NewsCarousel() {
     yellow: 'bg-amber-500/20 text-amber-300 border-amber-400/40',
     red: 'bg-red-500/20 text-red-300 border-red-400/40',
   };
+  const todas = [...noticiasNube, ...NEWS];
   return (
     <section id="news" className="py-20 sm:py-24 px-4 sm:px-8 bg-gradient-to-b from-black via-[#0A0A0A] to-black overflow-hidden" aria-labelledby="news-title">
       <div className="max-w-6xl mx-auto">
@@ -934,12 +959,12 @@ function NewsCarousel() {
             <button type="button" onClick={() => scrollToIndex(Math.max(0, activeIndex - 1))} disabled={activeIndex === 0} aria-label="Anterior" className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#4A8BFF]/20 border border-white/10 hover:border-[#4A8BFF]/50 flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]">
               <span className="text-white text-xl" aria-hidden="true">←</span>
             </button>
-            <button type="button" onClick={() => scrollToIndex(Math.min(NEWS.length - 1, activeIndex + 1))} disabled={activeIndex >= NEWS.length - 1} aria-label="Siguiente" className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#4A8BFF]/20 border border-white/10 hover:border-[#4A8BFF]/50 flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]">
+            <button type="button" onClick={() => scrollToIndex(Math.min(NEWS.length - 1, activeIndex + 1))} disabled={activeIndex >= todas.length - 1} aria-label="Siguiente" className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#4A8BFF]/20 border border-white/10 hover:border-[#4A8BFF]/50 flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]">
               <span className="text-white text-xl" aria-hidden="true">→</span>
             </button>
           </div>
           <ul ref={scrollerRef} className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 scroll-smooth" style={{ scrollbarWidth: 'thin', scrollbarColor: '#4A8BFF transparent' }} aria-label="Lista de noticias y partidos">
-            {NEWS.map((item) => (
+            {todas.map((item) => (
               <li key={item.id} className="snap-center shrink-0 w-[85vw] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
                 <article
                   onClick={() => setActiveNews(item)}
@@ -973,7 +998,7 @@ function NewsCarousel() {
             ))}
           </ul>
           <div className="flex justify-center gap-2 mt-6" role="tablist" aria-label="Selector de slide">
-            {NEWS.map((_, i) => (
+            {todas.map((_, i) => (
               <button key={i} type="button" role="tab" aria-selected={i === activeIndex} aria-label={`Ir a slide ${i + 1}`} onClick={() => scrollToIndex(i)} className={cls('h-2 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF]', i === activeIndex ? 'w-8 bg-[#4A8BFF]' : 'w-2 bg-white/20 hover:bg-white/40')} />
             ))}
           </div>
@@ -1031,6 +1056,12 @@ function NewsCarousel() {
           <p className="mt-3 text-white/70 text-base leading-relaxed">
             {activeNews.description}
           </p>
+          {activeNews.urlFuente && (
+            <a href={activeNews.urlFuente} target="_blank" rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-2 text-[#4A8BFF] hover:text-[#6AABFF] font-bold text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4A8BFF] rounded-md px-1">
+              📰 Leer en la fuente: {activeNews.fuente} <span aria-hidden="true">↗</span>
+            </a>
+          )}
 
           {/* Contenido largo (con saltos de línea) */}
           {activeNews.fullContent && (
