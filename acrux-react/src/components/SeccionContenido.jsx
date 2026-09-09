@@ -107,10 +107,14 @@ export default function SeccionContenido() {
           </p>
         </div>
 
-        {/* Grilla de tarjetas — mismo estilo que Entrevistas */}
-        <ul className="grid sm:grid-cols-2 gap-5 sm:gap-6 list-none">
-          {videos.map((video) => (
-            <li key={video.id} className="transition-all ease-out">
+        {/* Carrusel horizontal — máximo 6 videos visibles */}
+        <ul
+          className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 scroll-smooth"
+          style={{ scrollbarWidth: "thin", scrollbarColor: "#4A8BFF transparent" }}
+          aria-label="Lista de videos del club"
+        >
+          {videos.slice(0, 6).map((video) => (
+            <li key={video.id} className="snap-center shrink-0 w-[85vw] sm:w-[420px] transition-all ease-out">
               <button
                 type="button"
                 onClick={() => setActive(video)}
@@ -132,7 +136,7 @@ export default function SeccionContenido() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span
-                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#4A8BFF]/90 group-hover:bg-[#4A8BFF] flex items-center justify-center text-white text-2xl sm:text-3xl transition-all duration-300 group-hover:scale-110 shadow-2xl shadow-[#1A3A8A]/50"
+                    className="w-16 h-16 rounded-full bg-[#4A8BFF]/90 group-hover:bg-[#4A8BFF] flex items-center justify-center text-white text-2xl transition-all duration-300 group-hover:scale-110 shadow-2xl shadow-[#1A3A8A]/50"
                     aria-hidden="true"
                   >
                     ▶
