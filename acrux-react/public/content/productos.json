@@ -1,0 +1,34 @@
+[
+  {
+    "id": "playera-oficial",
+    "nombre": "Playera Oficial Acrux FC",
+    "precio": "$80.000",
+    "descripcion": "Playera oficial del club en micro-dry, talla S-XL, con escudo bordado",
+    "imagen": "/foto/img_a04.jpg",
+    "wa_msg": "Hola Acrux FC, quiero pedir la Playera Oficial"
+  },
+  {
+    "id": "balon-oficial",
+    "nombre": "Balón Oficial Acrux FC",
+    "precio": "$65.000",
+    "descripcion": "Balón de fútbol profesional, tamaño 5, official match ball",
+    "imagen": "/foto/img_09.jpg",
+    "wa_msg": "Hola Acrux FC, quiero pedir el Balón Oficial"
+  },
+  {
+    "id": "gorra-acrux",
+    "nombre": "Gorra Acrux FC",
+    "precio": "$35.000",
+    "descripcion": "Gorra ajustable con escudo bordado, colores del club",
+    "imagen": "/foto/img_11.jpg",
+    "wa_msg": "Hola Acrux FC, quiero pedir la Gorra Acrux FC"
+  },
+  {
+    "id": "sudadera-entrenamiento",
+    "nombre": "Sudadera de Entrenamiento",
+    "precio": "$95.000",
+    "descripcion": "Sudadera de entrenamiento con cremallera, talla S-XL",
+    "imagen": "/foto/img_a05.jpg",
+    "wa_msg": "Hola Acrux FC, quiero pedir la Sudadera de Entrenamiento"
+  }
+]

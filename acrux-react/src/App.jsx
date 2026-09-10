@@ -907,6 +907,15 @@ function NewsCarousel() {
       })
       .catch(() => { /* sin feed: quedan las noticias fijas */ });
   }, []);
+
+  // 🆕 Productos deportivos del club (public/content/productos.json)
+  const [productos, setProductos] = useState([]);
+  useEffect(() => {
+    fetch('/content/productos.json')
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error())))
+      .then(setProductos)
+      .catch(() => setProductos([]));
+  }, []);
   const scrollToIndex = useCallback((i) => {
     if (!scrollerRef.current) return;
     const card = scrollerRef.current.children[i];
@@ -1554,6 +1563,55 @@ function Testimonials() {
 // 🆕 SECCIÓN: FAQ para padres — resuelve dudas antes del formulario
 //    (contenido desde convocatoria.json + JSON-LD FAQPage para Google)
 // ════════════════════════════════════════════
+// ============================================================
+// 🆕 SECCIÓN: Artículos Deportivos — catálogo del club
+//    Lee /content/productos.json y muestra los productos con
+//    botón de WhatsApp por producto para pedir directo.
+// ============================================================
+function ArticulosDeportivos() {
+  const [productos, setProductos] = useState([]);
+  useEffect(() => {
+    fetch('/content/productos.json')
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error())))
+      .then(setProductos)
+      .catch(() => setProductos([]));
+  }, []);
+  if (!productos || productos.length === 0) return null;
+  return (
+    <section id="productos" className="relative py-20 sm:py-24 px-4 sm:px-8 border-t border-[#1A3A8A]/30" aria-labelledby="productos-title">
+      <div className="relative z-10 max-w-6xl mx-auto">
+        <header className="text-center mb-10">
+          <span className="inline-block text-[#F5B301] text-sm sm:text-base font-black tracking-[3px] bg-[#F5B301]/10 px-5 py-2 rounded-full border-2 border-[#F5B301]/20 mb-4">🛒 TIENDA ACRUX</span>
+          <h2 id="productos-title" className="text-3xl sm:text-4xl font-black mt-4 leading-tight">ARTÍCULOS <span className="text-[#F5B301]">DEPORTIVOS</span></h2>
+          <p className="text-white/60 text-sm sm:text-base mt-2">Representa los colores del club — productos oficiales Acrux FC.</p>
+        </header>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {productos.map((prod) => (
+            <div key={prod.id} className="bg-white/5 backdrop-blur-sm border-2 border-white/5 hover:border-[#F5B301]/40 rounded-2xl overflow-hidden transition-colors duration-300 flex flex-col">
+              <div className="relative aspect-square overflow-hidden">
+                <img src={prod.imagen} alt={prod.nombre} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 hover:scale-105 motion-reduce:transition-none" />
+                <span className="absolute top-3 right-3 bg-[#F5B301] text-[#0a1128] font-black text-sm px-3 py-1 rounded-full">{prod.precio}</span>
+              </div>
+              <div className="p-4 flex flex-col flex-grow">
+                <h3 className="font-black text-white text-sm mb-1">{prod.nombre}</h3>
+                <p className="text-white/50 text-xs leading-relaxed mb-4 flex-grow">{prod.descripcion}</p>
+                <a
+                  href={`https://wa.me/573222676860?text=${encodeURIComponent(`Hola Acrux FC, quiero pedir: ${prod.nombre} (${prod.precio})`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-auto inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1FB957] px-4 py-2.5 rounded-xl font-bold text-white text-sm transition-colors"
+                >
+                  💬 Pedir por WhatsApp
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function FaqSection() {
   const conv = useConvocatoria();
   const faqs = conv?.faq || [];
@@ -1893,6 +1951,7 @@ function App() {
         <VideosSection />
         <PlayerOfMonth />
         <Testimonials />
+        <ArticulosDeportivos />
         <FaqSection />
         <ContactForm spots={spots} />
       </main>
