@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>⚽ Acrux FC — Escuela de Fútbol en Sibaté</title>
+  <meta name="description" content="Acrux FC — Escuela de fútbol formativo en Sibaté, Cundinamarca. Convocatoria abierta."/>
+  <meta name="theme-color" content="#0a1128"/>
+  <meta property="og:title" content="⚽ Acrux FC — Sibaté"/>
+  <meta property="og:description" content="Escuela de fútbol formativo. Convocatoria abierta."/>
+  <meta property="og:image" content="https://www.acruxfc.com/foto/logo/logo_web_200px.png"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(170deg, #0a1128 0%, #0d1b3e 40%, #0a1128 100%);
+      color: white; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 0 16px 40px;
+    }
+    .portada {
+      width: 100vw; height: 180px; object-fit: cover;
+      border-bottom: 3px solid #F5B301;
+    }
+    .logo {
+      width: 100px; height: 100px; border-radius: 50%;
+      border: 4px solid #F5B301; margin-top: -50px;
+      background: #0a1128; object-fit: contain; position: relative; z-index: 2;
+    }
+    .nombre {
+      font-size: 1.6em; font-weight: 900; letter-spacing: 2px;
+      margin-top: 12px; color: white; text-align: center;
+    }
+    .sub { color: #F5B301; font-size: .85em; letter-spacing: 3px; text-transform: uppercase; margin-top: 4px; text-align: center; }
+    .meta-box {
+      margin-top: 20px; width: 100%; max-width: 400px;
+      background: rgba(245,179,1,.08); border: 1.5px solid rgba(245,179,1,.35);
+      border-radius: 16px; padding: 18px 16px; text-align: center;
+    }
+    .meta-box .titulo { font-size: .8em; letter-spacing: 2px; text-transform: uppercase; color: #F5B301; font-weight: 800; margin-bottom: 10px; }
+    .meta-box .fila { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: .92em; }
+    .meta-box .num { font-size: 1.6em; font-weight: 900; color: #F5B301; min-width: 48px; }
+    .meta-box .icono { font-size: 1.8em; }
+    .servicios { margin-top: 24px; width: 100%; max-width: 400px; }
+    .servicio {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,.05); border-radius: 12px;
+      padding: 14px 16px; margin-bottom: 10px;
+      border-left: 3px solid #F5B301;
+    }
+    .servicio .icono { font-size: 1.5em; }
+    .servicio .txt strong { display: block; font-size: .95em; color: white; }
+    .servicio .txt span { font-size: .8em; color: rgba(255,255,255,.5); }
+    .btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; max-width: 400px; padding: 16px;
+      border-radius: 14px; font-size: 1.05em; font-weight: 800;
+      text-decoration: none; margin-top: 12px;
+      transition: transform .15s, box-shadow .15s;
+      letter-spacing: .5px;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-whatsapp { background: #25D366; color: white; box-shadow: 0 4px 20px rgba(37,211,102,.35); }
+    .btn-llamar { background: #F5B301; color: #0a1128; box-shadow: 0 4px 20px rgba(245,179,1,.3); }
+    .footer { margin-top: 30px; font-size: .75em; color: rgba(255,255,255,.3); text-align: center; }
+    .footer a { color: #F5B301; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <img class="portada" src="https://www.acruxfc.com/foto/img_a04.jpg" alt="Acrux FC entrenamiento"/>
+  <img class="logo" src="https://www.acruxfc.com/foto/logo/logo_web_200px.png" alt="Logo Acrux FC"/>
+  <div class="nombre">ACRUX FC</div>
+  <div class="sub">Escuela de fútbol · Sibaté, Cundinamarca</div>
+
+  <div class="meta-box">
+    <div class="titulo">🏆 META DE SEGUIDORES</div>
+    <div class="fila"><span class="num">100</span> <span class="icono">👕</span> <span>Sorteo de <strong>playera oficial Acrux</strong> entre nuestros seguidores</span></div>
+    <div class="progreso"><div class="barra" id="barra" style="width:0%"></div></div>
+    <div class="fila" style="margin-top:10px"><span class="num">200</span> <span class="icono">⚽</span> <span>Sorteo de <strong>balón oficial Acrux</strong> entre nuestros seguidores</span></div>
+  </div>
+
+  <div class="servicios">
+    <div class="servicio"><span class="icono">⚽</span><div class="txt"><strong>Escuela de Fútbol Formativo</strong><span>Categorías pre-juvenil y juvenil</span></div></div>
+    <div class="servicio"><span class="icono">⚡</span><div class="txt"><strong>Entrenamiento de Alto Rendimiento</strong><span>Técnica · Táctica · Preparación física</span></div></div>
+    <div class="servicio"><span class="icono">🏆</span><div class="txt"><strong>Torneos y Ligas</strong><span>Competencia a nivel Cundinamarca y nacional</span></div></div>
+    <div class="servicio"><span class="icono">👥</span><div class="txt"><strong>Bloques para Promociones</strong><span>Grupos de policías y academias atendidos en secuencia</span></div></div>
+  </div>
+
+  <a class="btn btn-whatsapp" href="https://wa.me/573222676860?text=Hola%20Acrux%20FC,%20quiero%20información%20sobre%20la%20escuela%20de%20fútbol">
+    💬 ESCRÍBENOS AL WHATSAPP
+  </a>
+  <a class="btn btn-llamar" href="tel:+573222676860">
+    📞 LLAMAR AHORA
+  </a>
+
+  <div class="footer">
+    Acrux FC · Sibaté, Cundinamarca 🇨🇴<br/>
+    <a href="https://www.acruxfc.com">acruxfc.com</a>
+  </div>
+
+  <script>
+    const barra = document.getElementById('barra');
+    if (barra) setTimeout(() => barra.style.width = '50%', 300);
+  </script>
+</body>
+</html>
