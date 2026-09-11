@@ -1,106 +1,116 @@
 {
   "tendencias_producto": [
     {
-      "tendencia": "Edits con transiciones rápidas y música phonk",
-      "descripcion": "Mini-películas de 15-60 segundos con un clip extendido inicial seguido de cortes rápidos sincronizados con música. Estilo altamente estilizado que combina momentos clave de jugadores o equipos.",
+      "tendencia": "Before/After de transformación",
+      "descripcion": "Transiciones rápidas mostrando el progreso de jugadores. El formato mantiene vigencia en 2026 con énfasis en velocidad y claridad visual.",
       "fuente": "Ambas"
     },
     {
-      "tendencia": "Drills con overlay de texto y CTA",
-      "descripcion": "Videos de entrenamientos específicos (agilidad, reacción, técnica) con texto en pantalla explicando el ejercicio y llamado a la acción. Formato educativo pero dinámico.",
-      "fuente": "TikTok"
-    },
-    {
-      "tendencia": "Antes/Después o Progreso de jugador",
-      "descripcion": "Narrativa de evolución mostrando el primer día de un jugador hasta resultados actuales. Genera conexión emocional y motivación.",
+      "tendencia": "Drills de entrenamiento con texto overlay",
+      "descripcion": "Ejercicios técnicos con instrucciones en pantalla. Formato educativo que genera saves y shares, clave para el algoritmo.",
       "fuente": "Instagram"
     },
     {
-      "tendencia": "Retos y challenges con compañeros",
-      "descripcion": "Dinámicas competitivas entre jugadores (primer toque al cono, quién anota más goles, control de balón). Contenido divertido con reacciones genuinas.",
+      "tendencia": "Edits con música phonk/energética",
+      "descripcion": "Compilaciones de jugadas con cortes rápidos sincronizados a música phonk o trending. Domina el contenido viral de fútbol.",
+      "fuente": "TikTok"
+    },
+    {
+      "tendencia": "Behind-the-scenes de entrenamientos",
+      "descripcion": "Contenido auténtico mostrando el proceso, drills en acción, momentos del equipo. Humaniza la academia y construye confianza.",
       "fuente": "Ambas"
     },
     {
-      "tendencia": "Speed ramps en jugadas clave",
-      "descripcion": "Ralentización en momentos de alta técnica o goles seguida de aceleración. Enfatiza la habilidad y crea impacto visual dramático.",
-      "fuente": "Ambas"
+      "tendencia": "Player spotlight con transiciones",
+      "descripcion": "Destacar jugadores individuales con transiciones profesionales. Genera engagement emocional con padres y jugadores.",
+      "fuente": "Instagram"
+    },
+    {
+      "tendencia": "Retos y challenges de habilidades",
+      "descripcion": "Desafíos técnicos replicables. Formato tendencia que invita a participación y duetos.",
+      "fuente": "TikTok"
     }
   ],
   "tendencias_contenido": [
     {
-      "formato": "Afirmación audaz en primeros 3 segundos",
-      "descripcion": "Genera curiosidad inmediata y desafía al espectador a validar o refutar la declaración",
+      "formato": "Problema visual inmediato",
+      "descripcion": "Mostrar un error técnico común en los primeros frames crea identificación instantánea con jugadores y padres.",
       "plataforma": "Instagram/TikTok"
     },
     {
-      "formato": "Momento visual impactante sin contexto",
-      "descripcion": "Un gol espectacular, regate o jugada técnica en el primer frame detiene el scroll por puro impacto visual",
+      "formato": "Texto bold con pregunta directa",
+      "descripcion": "Preguntas como '¿Quieres jugar en categoría superior?' detienen el scroll al crear curiosidad específica en 1.7 segundos.",
       "plataforma": "Instagram/TikTok"
     },
     {
-      "formato": "Pregunta directa a cámara",
-      "descripcion": "Crea engagement inmediato haciendo que el espectador se sienta interpelado personalmente",
+      "formato": "Inicio con payoff, no con dolor",
+      "descripcion": "Mostrar el resultado exitoso primero supera en retención al formato problema-solución según métricas de skip rate 2026.",
       "plataforma": "Instagram/TikTok"
     },
     {
-      "formato": "Reacción emocional genuina",
-      "descripcion": "Celebración explosiva o grito de gol en primer plano conecta emocionalmente de inmediato",
+      "formato": "Momento visual impactante",
+      "descripcion": "Gol, jugada espectacular o celebración desde el segundo 1 captura atención incluso con sonido apagado.",
       "plataforma": "Instagram/TikTok"
     },
     {
-      "formato": "Setup de reto o desafío",
-      "descripcion": "La promesa de competencia o resultado inesperado mantiene la atención hasta el final",
+      "formato": "Contador o lista numérica",
+      "descripcion": "Ganchos tipo '3 drills que usan los profesionales' establecen expectativa clara y prometen valor rápido.",
       "plataforma": "Instagram/TikTok"
     },
     {
-      "formato": "Música: Phonk brasileño de alta energía",
-      "descripcion": "Durante toda la secuencia de edits rápidos y highlights. Domina los edits de fútbol 2026",
+      "formato": "Challenge o afirmación contraintuitiva",
+      "descripcion": "Romper creencias comunes del fútbol formativo genera debate y detiene el scroll al desafiar lo esperado.",
+      "plataforma": "Instagram/TikTok"
+    },
+    {
+      "formato": "Música: Phonk/Bass agresivo",
+      "descripcion": "Edits de highlights y compilaciones de jugadas. Género dominante en contenido de fútbol viral 2026.",
       "plataforma": "Reels"
     },
     {
-      "formato": "Música: Trap/Hip-hop con drops marcados",
-      "descripcion": "Sincronización de cortes con el beat. El drop coincide con el momento cumbre (gol, jugada técnica)",
+      "formato": "Música: Audio trending con rise indicator",
+      "descripcion": "Audios en fase de crecimiento (no saturados). Adopción temprana aumenta alcance según algoritmo actual.",
       "plataforma": "Reels"
     },
     {
-      "formato": "Música: Remixes de canciones populares (trending audio)",
-      "descripcion": "Para aprovechar el algoritmo. Sonidos virales del momento aumentan el alcance orgánico",
+      "formato": "Música: Música épica/cinematic",
+      "descripcion": "Momentos de partido, goles decisivos, celebraciones. Refuerza la narrativa heroica del fútbol formativo.",
       "plataforma": "Reels"
     },
     {
-      "formato": "Música: Sonido ambiente natural (gritos, aplausos)",
-      "descripcion": "En momentos de celebración o victoria para autenticidad y conexión emocional",
+      "formato": "Música: Voiceover educativo con música de fondo",
+      "descripcion": "Drills técnicos y contenido instructivo. Funciona con y sin sonido al incluir captions.",
       "plataforma": "Reels"
     },
     {
-      "formato": "Música: Anthems deportivos épicos",
-      "descripcion": "Para contenido motivacional, presentaciones de equipo o videos de reclutamiento",
+      "formato": "Música: Anthems de World Cup 2026",
+      "descripcion": "Aprovecha momentum del Mundial 2026 para edits aspiracionales y contenido de selección.",
       "plataforma": "Reels"
     }
   ],
   "sugerencias_campana": [
-    "Seleccionar el momento más impactante (gol, regate, parada) y colocarlo en los primeros 1-3 segundos sin introducción",
-    "Editar en formato vertical 9:16 con duración total entre 15-45 segundos máximo",
-    "Realizar cortes rápidos sincronizados con el beat de la música: 2-4 cortes por segundo en secciones de alta energía",
-    "Aplicar speed ramps estratégicos: ralentizar x0.5 en el momento de contacto con balón, acelerar x1.5 en transiciones",
-    "Agregar texto overlay en 2-3 momentos clave usando fuentes bold y contraste alto (blanco con borde negro)",
-    "Insertar CTA textual en los últimos 3 segundos: 'Síguenos para más', '¿Quieres entrenar así?' o 'Únete a nosotros'",
-    "Usar música trending o phonk con BPM alto (140-160) y sincronizar cambios de clip con kicks y snares",
-    "Aplicar color grading sutil: aumentar contraste +15%, saturación +10% para look más cinematográfico",
-    "Exportar en 1080x1920px, máxima calidad, formato MP4 con H.264",
-    "En caption usar 3-5 hashtags nicho (#FutbolFormativo #Sub17 #CanteraColombiana) + 2-3 amplios (#Futbol #Soccer)"
+    "Capturar clip visual impactante en primeros 0.5 segundos (gol, drill espectacular, celebración)",
+    "Mantener duración entre 8-19 segundos para maximizar completion rate según benchmarks 2026",
+    "Aplicar cortes sincronizados al beat de la música phonk/trending cada 1-2 segundos",
+    "Agregar texto overlay bold en primeros 3 segundos que funcione sin sonido (50% ven sin audio)",
+    "Usar speed ramps en momentos clave: slow-motion en impacto de pelota, speed up en transiciones",
+    "Incluir captions claros y específicos que hablen a nicho (fútbol formativo Sub-17)",
+    "Aplicar transiciones profesionales con herramientas como CapCut (align feature, templates)",
+    "Colocar CTA sutil al final: 'Síguenos para más drills' o 'Tag a tu compañero que necesita esto'",
+    "Exportar en formato vertical 9:16 optimizado para móvil con compresión para carga rápida",
+    "Medir skip rate en primeros 3 segundos vía Reels Insights y ajustar gancho según data"
   ],
   "ideas_contenido": [
-    "Drill de reacción 1v1: Dos jugadores Sub-17 corriendo a su cono y de vuelta, compitiendo por tocar el cono central primero. Ángulo bajo, música phonk, overlay 'VELOCIDAD MENTAL = VELOCIDAD FÍSICA'. CTA: '¿Quién ganaría en tu equipo?'",
-    "Progreso de jugador: Split screen mostrando primer entrenamiento de un canterano vs. su nivel actual 6 meses después. Música emotiva, texto 'DE AQUÍ... A AQUÍ EN 6 MESES'. CTA: 'Tu evolución empieza hoy'",
-    "Desafío de precisión: 3 jugadores intentando anotar desde diferentes distancias en 30 segundos. Cronómetro en pantalla, cortes rápidos por segundo, celebración exagerada del ganador. Música trending actual",
-    "Behind the scenes táctico: Entrenador explicando jugada en pizarra (3 segundos) + ejecución perfecta en campo (slow-mo en pase clave). Overlay 'TÁCTICA + EJECUCIÓN = GOL'. Sonido ambiente natural",
-    "Reto de control y definición: Jugador recibe balón aéreo, control de pecho, regate a cono, disparo a gol. Todo en 8 segundos real time. Múltiples ángulos cortados rápido. Música con drop en el gol",
-    "Testimonial dinámico de jugador: Juvenil hablando a cámara 'Llegué sin saber qué era pressing' (2 seg) + secuencia rápida de él aplicando pressing en partido (5 seg) + sonrisa final 'Ahora soy un especialista'. Formato documental rápido",
-    "Serie de regates en espacio reducido: 5 jugadores diferentes haciendo su mejor skill move en 1v1 vs entrenador. Cada uno 2 segundos. Phonk acelerado. Texto final 'NIVEL: SIBATÉ 🔥' CTA: '¿Cuál fue el mejor?'",
-    "Golazo desde perspectiva única: Gol de jugador Sub-17 filmado con celular desde atrás de la portería contraria. Slow-mo en disparo, velocidad normal en celebración. Overlay con nombre del jugador y '17 años'. Música anthem",
-    "Warm-up competitivo: Juego de calentamiento donde último en completar circuito hace 10 flexiones. Mostrar tensión, caras de concentración, caída del último, risas del equipo. Auténtico y divertido. Sonido natural + música de fondo baja",
-    "Momento de gol con reacción múltiple: Gol importante en partido. Mostrar: disparo (ángulo 1), entrada del balón (ángulo 2), explosión de celebración del equipo (ángulo 3), reacción de cuerpo técnico (ángulo 4). Todo en 15 segundos con cortes por segundo. Música con climax"
+    "Drill técnico: '3 controles que practican en Europa' - Mostrar ejercicio de control orientado con overlay táctico, música phonk, 12 segundos",
+    "Before/After: 'Su primer día vs 6 meses después' - Transición rápida de jugador ejecutando regate, texto bold, audio trending",
+    "Behind-the-scenes: 'Así entrenamos para el torneo de Bogotá' - Compilación rápida de sesión, humanizar entrenadores, música épica",
+    "Challenge: 'Reto de precisión Acrux FC - ¿Cuántos de 5 metes?' - Invitar a duetos, formato replicable para engagement",
+    "Player spotlight: 'De Sibaté a la Sub-17 - Historia de [Nombre]' - Narrativa aspiracional de jugador local, testimonial de padres, 15 segundos",
+    "Drill táctico: '¿Por qué fallamos en transición?' - Problema común + solución visual con diagrama overlay, save-worthy",
+    "Celebración de gol: 'Cuando entra el gol del campeonato' - Momento emocional puro, slow-mo en celebración, música anthems Mundial",
+    "Comparación: 'Así lo hacen en Primera vs así lo enseñamos' - Mostrar mismo movimiento pro y en cantera, educativo",
+    "Open trial announcement: '¿Tienes lo necesario? Pruebas abiertas Soacha' - Gancho con pregunta directa, CTA claro, detalles en caption",
+    "Entrenador tip: 'Error #1 que cometen en definición' - Coach hablando directo a cámara, ejemplo visual, bajo 10 segundos"
   ],
-  "fecha_publicacion": "2026-09-07T22:44:25.856896+00:00"
+  "fecha_publicacion": "2026-09-11T17:34:03.236129+00:00"
 }
